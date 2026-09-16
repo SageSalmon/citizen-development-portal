@@ -25,6 +25,16 @@ a fact plus the consequence of not knowing it. Environment specifics are in
   plus that app setting holding the auth identity's client id plus a federated credential
   on the app registration whose subject is the identity's principal id. Documented by
   Microsoft for App Service and Functions; **not yet exercised here.**
+- **Federated credentials on one managed identity cannot be written concurrently.** The
+  first apply created two in parallel and Azure returned 409
+  `ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity`. They are now two
+  resources with `depends_on` between them. 26 of 27 resources succeeded on the first apply;
+  the second apply added the one credential.
+- **Easy Auth answers 401, not 302, to a non-browser client** even with
+  `RedirectToLoginPage`: the redirect is sent only when the request accepts `text/html`.
+  `curl` without an Accept header gets 401. The deploy probe accepts either, correctly. The
+  empty Function App, before any package was uploaded, already returned 401 anonymously:
+  the door was locked before there was a room behind it.
 - **Resource provider `Microsoft.App` is not registered** in the subscription. It is only
   needed for Flex VNet integration (D11), so it was left alone.
 - **`terraform apply` cannot run from the assistant's auto mode**; the harness classifier

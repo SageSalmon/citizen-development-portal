@@ -33,7 +33,12 @@ gh token (developer)  ──►  push to app repo main
 There is no secret in any GitHub repo, no service-principal password, no publish
 profile, no `MICROSOFT_PROVIDER_AUTHENTICATION_SECRET`, no `AZURE_CREDENTIALS` variable.
 The storage account behind each app refuses shared-key access, so there is no account key
-to leak either. If a GitHub organization is
+to leak either.
+
+What *is* committed, deliberately, is `infra/registry/<app>.json`: hostname, resource
+group, function app name, deploy identity client id, tenant id, subscription id. The deploy
+job reads them from this repo and has no other source. They are identifiers. Holding them
+grants nothing without a token from the one federated subject. If a GitHub organization is
 fully exported tomorrow, nothing in it grants Azure access.
 
 ## How the OIDC handshake is scoped

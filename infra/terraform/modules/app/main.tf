@@ -245,18 +245,37 @@ resource "azapi_update_resource" "auth" {
 
 ## The deploy identity trusts exactly one GitHub subject: this repo running the platform's
 ## reusable workflow on main. Anything else that asks for a token gets nothing.
-resource "azapi_resource" "deploy_fic" {
-  for_each  = { for i, s in var.github_oidc_subjects : "github-platform-workflow-${i}" => s }
+##
+## Two credentials, written ONE AFTER THE OTHER: Azure rejects concurrent federated
+## credential writes on a single managed identity (409
+## ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity), so the second
+## depends on the first instead of sharing a for_each.
+resource "azapi_resource" "deploy_fic_name_form" {
   type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31"
-  name      = each.key
+  name      = "github-platform-workflow-0"
   parent_id = azapi_resource.identity["deploy"].id
   body = {
     properties = {
       issuer    = "https://token.actions.githubusercontent.com"
-      subject   = each.value
+      subject   = var.github_oidc_subjects[0]
       audiences = ["api://AzureADTokenExchange"]
     }
   }
+}
+
+resource "azapi_resource" "deploy_fic_id_form" {
+  count     = length(var.github_oidc_subjects) > 1 ? 1 : 0
+  type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31"
+  name      = "github-platform-workflow-1"
+  parent_id = azapi_resource.identity["deploy"].id
+  body = {
+    properties = {
+      issuer    = "https://token.actions.githubusercontent.com"
+      subject   = var.github_oidc_subjects[1]
+      audiences = ["api://AzureADTokenExchange"]
+    }
+  }
+  depends_on = [azapi_resource.deploy_fic_name_form]
 }
 
 ## The deploy identity may push a package to THIS app and nothing else.

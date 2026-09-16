@@ -1,0 +1,9 @@
+{
+  "name": "hello-citizen",
+  "hostname": "hello-citizen-a3tws.azurewebsites.net",
+  "resource_group": "rg-citizen-dev",
+  "function_app": "hello-citizen-a3tws",
+  "deploy_client_id": "e4e62f51-3c18-4117-9c8e-7ff20e25cddc",
+  "tenant_id": "3f1f07b4-2416-4f45-b787-ead880fd32f5",
+  "subscription_id": "982ffa56-59b9-482e-bb1b-61cfcf33651e"
+}
