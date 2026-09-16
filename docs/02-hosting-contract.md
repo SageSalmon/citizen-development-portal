@@ -165,7 +165,7 @@ owner, not against whoever pushed.
 ### What the platform's own identities can do
 
 The deploy identity that the reusable workflow uses can push an image to the registry
-and update the container app's image and settings. It **cannot** create role
+and upload a package to the function app (Website Contributor, which also reaches app settings; a narrower custom role is ○). It **cannot** create role
 assignments, change built-in auth configuration, or touch Key Vault policy. Those are
 Terraform's, run by the platform team from `infra/`. So even a fully compromised app
 repo and workflow can ship a bad image (which the gates scan) but cannot widen what
@@ -203,7 +203,8 @@ That is the rule working as designed, and it means "latest" is never the default
 ```yaml
 # Identity of the app. Required.
 name: expense-tracker          # lowercase, hyphens, <= 32 chars; becomes
-                               #   https://expense-tracker.citizenappjhc.com
+                               #   https://expense-tracker.citizenappjhc.com (aspirational, D22;
+                               #   today: <function-app-hostname>.azurewebsites.net)
 owner: someone@example.org     # a person, not a team alias; accountable for the app
 maintainers: []                # people who may also deploy; each verified at admission
 area: finance                  # business area, for cost reporting
@@ -259,8 +260,8 @@ never learns about a problem only after pushing.
 
 ## Deliberately deferred
 
-- Per-app custom domains other than `<name>.citizenappjhc.com`. One suffix, one
+- Per-app custom domains other than the platform's (D22, not yet built). One suffix, one
   certificate, one DNS zone is the point.
 - Background jobs and schedules (a natural second runtime unit; not in v1).
 - Apps that call other hosted apps (service-to-service identity).
-- Anything beyond one container: sidecars, multiple services, databases owned by the app.
+- Anything beyond one function app: extra services, queues, databases owned by the app.

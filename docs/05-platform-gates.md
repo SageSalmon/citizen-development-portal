@@ -1,7 +1,7 @@
 # 05 — Platform gates (the teeth)
 
 The skill in this repo *suggests*. Everything it generates — the `check` script, the
-pinned versions, the `.npmrc`, the non-root Dockerfile — lives in the developer's repo,
+pinned versions, the `.npmrc`, the `host.json` — lives in the developer's repo,
 and the developer can change it. That is fine. It is guidance.
 
 The **infrastructure** in `infra/` is where the same rules are *enforced*, by code the
@@ -115,7 +115,7 @@ Log Analytics row, and dashboard are ○.
 *Enforced by:* the same reusable workflow. Azure Policy is ○.
 
 Runs first, when the app has a database: unapplied migrations, applied by the platform's
-migration identity in transactions, **before** the revision switch. A failed migration
+migration identity in transactions, **before** the package upload. A failed migration
 stops the deploy here; the previous revision keeps serving.
 
 Runs next, when the app declares `fabric:`: the platform's checks runner and then every

@@ -288,7 +288,12 @@ team on request or via SSO (D15).
 one wildcard certificate for `*.citizenappjhc.com` that the platform holds. Apps never
 see certificates or DNS.
 
-**Mechanism.** Azure Container Apps supports a *custom DNS suffix on the environment*:
+**Amended 2026-09-16 (D30).** The mechanism below assumed Container Apps. On Azure Functions
+Flex Consumption certificates are *site-scoped*: each app needs its own hostname binding
+and certificate, which Terraform can automate but which is more per-app work than one
+environment-level suffix. No DNS zone exists yet; apps use `*.azurewebsites.net`. Open.
+
+**Original mechanism (D1 era).** Azure Container Apps supports a *custom DNS suffix on the environment*:
 the environment is given the suffix `citizenappjhc.com` and the wildcard certificate,
 and every app in it is addressable as `<app>.citizenappjhc.com` with no per-app domain
 binding. DNS needs an A record for `*.citizenappjhc.com` to the environment's static IP

@@ -10,9 +10,9 @@ to see their own.
 
 ## Where it lives, and where it does not
 
-**Not on the playground.** The dashboard reads every app's health probes, revisions,
-image scan results, build status, and cost. That requires reader roles across the whole
-Container Apps environment, the registry, Log Analytics, and Cost Management. No citizen
+**Not on the playground.** The dashboard reads every app's health probes, deployments,
+dependency scan results, build status, and cost. That requires reader roles across every
+function app in the resource group, Log Analytics, and Cost Management. No citizen
 app holds any of those; the default citizen identity holds *nothing* beyond its own Key
 Vault secrets. Hosting the dashboard as "just another app" would put a privileged
 identity inside the fleet, make it the one app the gates treat differently, and set a
@@ -34,12 +34,12 @@ One row per admitted app:
 | Column | Source |
 |--------|--------|
 | Name, owner, area, classification | `app.yaml` via tags on the resource |
-| Health now | Healthy / Degraded / Down / Unknown, from the last three 15-minute heartbeats, plus current revision status |
+| Health now | Healthy / Degraded / Down / Unknown, from the last three 15-minute heartbeats, plus the last deployment's status |
 | Last heartbeat | Time, latency, and the body or error returned |
 | Availability, last 7 days | Share of heartbeats that returned 200 |
 | Users, last 30 days | Distinct users from `user.signin` events; last-seen time |
 | Sign-in logging | OK, or "traffic without sign-in events" when the app has stopped logging users |
-| Last deploy: when, by whom, which commit | Gate 2 records the pushing person, mapped to their Entra display name and UPN (D15), and the workflow writes it as a revision label and a Log Analytics row. The dashboard shows the person's name, not a GitHub handle. |
+| Last deploy: when, by whom, which commit | Gate 2 records the pushing person, mapped to their Entra display name and UPN (D15), and the workflow writes it as a deployment tag and a Log Analytics row. The dashboard shows the person's name, not a GitHub handle. |
 | Open vulnerabilities (critical / high, fixable) | Latest image rescan result stored with the image |
 | Days since image rescan | Same |
 | Dependency compliance | Last Gate 2 result: over budget, off-allow-list, release-age waivers |
@@ -53,7 +53,7 @@ One row per admitted app:
 Sorted by "worst first": failing health, then critical CVEs, then stale owners. A
 column header click re-sorts by cost, so the most expensive apps are one click away.
 
-**What per-app cost means here.** Every resource the app module creates — the container
+**What per-app cost means here.** Every resource the app module creates — the function
 app, its Key Vault secrets, its budget alert — carries the `app` tag, so consumption
 attributed to the app is exact. Shared platform costs (the environment, Log Analytics,
 the registry, the certificate, DNS) are *not* divided among apps; they appear as one
@@ -70,7 +70,7 @@ check for the last 24 hours), recent gate results with the developer-facing mess
 recent request and error counts, and the last 50 log lines.
 
 **Deployment history.** One row per deploy: when, who (display name and UPN), commit,
-gate outcome, and whether the revision is still the one serving traffic. This is the
+gate outcome, and whether that package is still the one serving traffic. This is the
 answer to "who changed this and when" without anyone opening GitHub.
 
 **Migration history.** (apps with data) Each migration: file, applied when, by which
@@ -110,7 +110,7 @@ from day one, and it tells us which views people actually use.
 
 **A custom web dashboard is v2, if the Workbook proves insufficient** — for example if
 owners need a friendlier view than the Azure portal allows. If built, it is still
-platform tooling: a separate Container Apps environment (or App Service) in the
+platform tooling: a separate function app or App Service in the
 platform resource group, a managed identity with the reader roles listed above and
 nothing more, Entra sign-in restricted to the platform team group plus app owners. It
 can reuse the skill's `react-app` template as a *starting point* for the code, but it is
@@ -124,13 +124,13 @@ requirement on `infra/`, not on apps:
 - Heartbeat results, every 15 minutes per app: status, latency, body or error.
 - Gate 2 and Gate 3 results, per run, as a structured row in a Log Analytics custom table
   (app, gate, rule, pass/fail, message, commit, **deployed-by UPN and display name**).
-- The same deployed-by identity and commit as labels on the Container Apps revision, so
+- The same deployed-by identity and commit as tags on the function app's deployment, so
   the running thing and the log agree about who put it there.
 - A daily cost export by tag into the same workspace, so cost and deploys can be
   joined on app and date.
 - Nothing extra for users: the `user.signin` events arrive through the ordinary stdout
   log collection, which is why the contract requires them to be JSON.
-- Revision labels carrying the commit SHA and the build run id.
+- Deployment tags carrying the commit SHA and the build run id.
 - Rescan results stored as an artifact on the image and mirrored to Log Analytics.
 - Owner-liveness results to the same table.
 - Fabric publish and check results per deploy and per scheduled run, to the same table;

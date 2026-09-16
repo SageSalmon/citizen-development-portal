@@ -130,7 +130,7 @@ the developer makes knowingly, and the allow-list tells them which ones are pre-
 
 The first thing the skill produces, before any template code, is the *shape* of a
 playground app. Two top-level folders separate what runs in the browser from what runs
-in the container, because the security rules for the two are different and a developer
+on Azure Functions, because the security rules for the two are different and a developer
 should never wonder which side a file is on:
 
 | Folder | What it is | Rules that apply |
@@ -157,7 +157,7 @@ never pulls server code.
   package.json           # exact versions only; scripts: dev, check, build, deploy
   package-lock.json      # committed
   .npmrc                 # ignore-scripts=true, save-exact=true, audit level
-  .nvmrc                 # Node LTS major, matching the Dockerfile base
+  .nvmrc                 # Node major, matching runtime.node in app.yaml (24)
   tsconfig.json          # strict
   host.json              # Functions host: v2.0, extension bundle 4.x, empty route prefix
   .gitignore             # includes .env
@@ -273,7 +273,7 @@ developer never sees a workflow log; they see what the platform decided and why.
 - The generated `.github/workflows/deploy.yml` is a one-line call to the platform's
   reusable workflow. It contains no logic to edit.
 - The build skill's own test: generate every template into a scratch directory, run
-  each one's `check`, build each Dockerfile, hit `/healthz`. Runs in this repo's CI.
+  each one's `check`, build each, hit `/api/healthz` on the local server. **Today:** done by hand (`node --test infra/gates/tests/*.test.mjs`, then scaffold + `npm test` + `npm run build`); this repo has no CI of its own yet.
 - The deploy skill's own test: against a sandbox organization, admit a generated app,
   push a good commit and a bad one, assert the developer-facing messages.
 
@@ -284,7 +284,7 @@ developer never sees a workflow log; they see what the platform decided and why.
    exactly one `user.signin` event for that session, containing no header or token
    values beyond object id, UPN, and display name.
 3. `check` fails, with a clear message, on: a bad app name, a missing owner, a
-   hard-coded port, a secret-looking string in the repo, a Dockerfile running as root,
+   missing host.json, a secret-looking string in the repo, a workflow pinned to a tag,
    a version range in `package.json`, a missing lockfile, install scripts enabled, a
    high-severity audit finding, and a dependency count over budget.
 4. A person who has never seen this repo can go from the skill to a running local app
