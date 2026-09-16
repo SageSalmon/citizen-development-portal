@@ -1,0 +1,36 @@
+{
+  "name": "netlify-poc",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Proof of concept: can Netlify's Free plan host a citizen-style app with login, a database, and a Fabric read, deployed from a two-job GitHub Actions pipeline?",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "vite build",
+    "test": "vitest run",
+    "check": "tsc --noEmit",
+    "netlify": "netlify"
+  },
+  "dependencies": {
+    "@netlify/database": "2.0.1",
+    "@netlify/functions": "6.0.0",
+    "mssql": "12.7.2",
+    "netlify-identity-widget": "2.0.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@opentelemetry/api": "1.9.1",
+    "@types/node": "22.20.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "netlify-cli": "27.5.2",
+    "typescript": "5.9.3",
+    "vite": "8.3.0",
+    "vitest": "5.0.0"
+  }
+}

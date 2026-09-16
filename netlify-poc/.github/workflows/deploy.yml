@@ -1,0 +1,65 @@
+# Two-job pipeline, mirroring the playground's credential split as closely as Netlify allows.
+#
+#   job A  build   — runs the app's code (install, test, build). Holds NO Netlify token.
+#   job B  deploy  — holds NETLIFY_AUTH_TOKEN. Downloads job A's artifact and uploads it.
+#                    `netlify deploy` bundles functions with esbuild; it does not execute app code.
+#
+# What CANNOT be reproduced: the token is a long-lived personal access token stored as a
+# repo secret, not an OIDC-federated short-lived credential. Anyone who can read repo
+# secrets or edit this file can deploy. Netlify's own Git builds must be STOPPED in the
+# site settings or this pipeline is bypassable by a plain push.
+#
+# Actions are pinned by tag for readability; pin to commit SHAs before relying on this.
+
+name: build-and-deploy
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: |
+            dist
+            netlify
+            netlify.toml
+            package.json
+            package-lock.json
+          retention-days: 7
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # netlify-cli needs the function deps present to bundle them. --ignore-scripts so no
+      # package lifecycle script runs in the job that holds the token.
+      - run: npm ci --ignore-scripts
+      - run: npx netlify deploy --prod --dir=dist --functions=netlify/functions --message "${GITHUB_SHA}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

@@ -1,0 +1,73 @@
+# Netlify configuration. Build runs in GitHub Actions (job A); `netlify deploy` in job B
+# uploads dist/ and bundles netlify/functions/. Netlify's own Git builds are STOPPED in
+# the site settings so that only the Actions pipeline can deploy (see README).
+
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[functions]
+  node_bundler = "esbuild"
+  # mssql/tedious bundle fine with esbuild; if the bundler chokes, uncomment:
+  # external_node_modules = ["mssql"]
+
+[dev]
+  framework  = "vite"
+  targetPort = 5173
+
+# ---------------------------------------------------------------------------
+# Role-based access at the CDN edge. Netlify reads the `nf_jwt` cookie set by
+# Netlify Identity and evaluates `Role=` conditions BEFORE any function or asset
+# is served. This is the closest Free-plan analogue to "identity at the door".
+# Users get the `member` role from netlify/functions/identity-signup.mts.
+#
+# Order matters: first matching rule wins. `force = true` overrides existing files.
+# ---------------------------------------------------------------------------
+
+# Protected app page
+[[redirects]]
+  from = "/app/*"
+  to = "/app/index.html"
+  status = 200
+  force = true
+  conditions = { Role = ["member"] }
+
+[[redirects]]
+  from = "/app/*"
+  to = "/"
+  status = 302
+  force = true
+
+# Protected API routes (functions ALSO verify the bearer token server-side)
+[[redirects]]
+  from = "/api/db"
+  to = "/api/db"
+  status = 200
+  force = true
+  conditions = { Role = ["member"] }
+
+[[redirects]]
+  from = "/api/fabric"
+  to = "/api/fabric"
+  status = 200
+  force = true
+  conditions = { Role = ["member"] }
+
+[[redirects]]
+  from = "/api/db"
+  to = "/401.json"
+  status = 401
+  force = true
+
+[[redirects]]
+  from = "/api/fabric"
+  to = "/401.json"
+  status = 401
+  force = true
+
+# /api/healthz and /api/me are deliberately reachable without a role:
+# healthz so an external monitor can probe, /me so the login page can ask "who am I".

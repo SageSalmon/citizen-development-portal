@@ -20,6 +20,7 @@ citizen-development-portal/
   infra/terraform/           # ✓ environment + modules/app + app-<name>.tf; state in Azure
   infra/registry/            # ✓ per-app records the deploy job reads (none yet)
   .github/workflows/         # ✓ build-and-deploy.yml, the reusable workflow
+  netlify-poc/               # the Netlify comparison app (10); its own README; not part of the platform
 ```
 
 **Status 2026-09-16: thin slice built and deployed once.** The environment and the first

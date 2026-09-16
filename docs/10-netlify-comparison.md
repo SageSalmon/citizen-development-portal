@@ -5,6 +5,12 @@ feature by feature against Netlify's own docs and pricing page on 2026-09-10. Wr
 the question does not have to be re-researched the next time it comes up. Nothing here is
 a decision; D1 (Container Apps) stands.
 
+**The comparison app** lives in this repo at `netlify-poc/`: a small React site with four
+functions (health, identity, Netlify DB, a Fabric read through a stored service-principal
+secret) and a two-job GitHub Actions deploy. Its README is the setup; `netlify-poc/docs/findings.md`
+is the checklist to fill in when it runs. As of 2026-09-16 it builds locally and has not been
+deployed to any Netlify site.
+
 ## Netlify plan tiers, 2026-09-10
 
 | Plan | Price | Credits per month | Notes |
