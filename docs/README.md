@@ -48,6 +48,7 @@ Container Apps to Azure Functions Flex Consumption (D30); pages were rewritten t
 | [10-netlify-comparison.md](10-netlify-comparison.md) | Could Netlify host this? Feature-by-feature check against Netlify's docs and plan tiers, 2026-09-10, plus what an internal Enterprise account actually does; verdict: no |
 | [11-deployment-notes.md](11-deployment-notes.md) | What building and deploying taught us: backend auth, provider sources, Flex quirks, OIDC subjects, the release-age rule refusing its own template |
 | [12-known-gaps.md](12-known-gaps.md) | Where the work as built could mislead: no end-to-end deploy yet, health gate proves only the locked door, no rollback, manual admission, operator credential |
+| [13-demo-runbook.md](13-demo-runbook.md) | Demo script: new app with the skill, manual admission, deploy with the skill, sign in; what to say is not real yet; teardown |
 | [environments/](environments/README.md) | Identifying values per environment; `dev.md` is gitignored, `example.md` shows the shape |
 
 **Diagrams.** `diagrams/architecture.drawio` is the architecture diagram in draw.io XML,
