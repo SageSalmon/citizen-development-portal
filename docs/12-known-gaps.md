@@ -17,6 +17,17 @@ has yet signed in to it.
 **Closing it.** A member of the group opens the app, `/api/me` shows them, and
 `user.signin` appears in Application Insights. Record it in [11](11-deployment-notes.md).
 
+## The scaffold's repo-creation path has not run as one piece
+
+**What.** `scripts/citizen-app-new-custom.mjs` contains the `git init`, commit,
+`gh repo create`, push, and OIDC-template steps. Both real scaffolds ran with `--no-git`
+and those steps were done by hand.
+**Why it matters.** The skills page could read as if "new app" produces a repo. Today a
+person does that part.
+**Today.** The same commands worked when run by hand for `hello-citizen`.
+**Closing it.** Scaffold a throwaway app without `--no-git`, confirm the repo, the push,
+and the subject template, delete the repo, and update [03](03-skills.md).
+
 ## The deploy health gate proves only that the door is locked
 
 **What.** Job B checks that an anonymous request is refused (302/401). It does not prove
