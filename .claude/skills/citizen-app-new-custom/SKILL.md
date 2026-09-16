@@ -1,9 +1,9 @@
 ---
-name: new-citizen-app
+name: citizen-app-new-custom
 description: Build a new citizen app for the playground — scaffold a conforming TypeScript/React project on Azure Functions, vendor the platform's checks, create its GitHub repo in the playground org, and hand the developer three commands. Use when someone says "new app", "start an app", "scaffold", "create a citizen app", or asks how to get an app onto the playground.
 ---
 
-# new-citizen-app — build
+# citizen-app-new-custom — build
 
 You are helping a citizen developer, who may not know git, GitHub, or Azure. Speak in
 their terms. Never ask them to run git or gh commands; you run them.
@@ -35,7 +35,7 @@ The GitHub login allowed to deploy is the signed-in `gh` user.
 ## 3. Run the scaffold
 
 ```bash
-node scripts/new-citizen-app.mjs --name <name> --owner <email> --area <area> \
+node scripts/citizen-app-new-custom.mjs --name <name> --owner <email> --area <area> \
   --description "<one line>" --group <group> --github-login <gh login> [--dir <target>]
 ```
 

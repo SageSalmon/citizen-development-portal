@@ -11,11 +11,11 @@ This repo holds both halves of the **citizen app playground**:
 citizen-development-portal/
   docs/                      # these documents; environments/ holds gitignored specifics
   .claude/skills/
-    new-citizen-app/         # ✓ build: conforming project + its GitHub repo
-    deploy-citizen-app/      # ✓ deploy: push, follow the run, gate results in plain words
+    citizen-app-new-custom/         # ✓ build: conforming project + its GitHub repo
+    citizen-app-deploy-custom/      # ✓ deploy: push, follow the run, gate results in plain words
                              #   (admission is a manual operator step; D19 distribution open)
   templates/react-app/       # ✓ the one template (Vite + React, Azure Functions handlers)
-  scripts/                   # ✓ new-citizen-app.mjs, write-registry.mjs
+  scripts/                   # ✓ citizen-app-new-custom.mjs, write-registry.mjs
   infra/gates/               # ✓ the rule engine, Node built-ins only, 7 rules, 16 tests
   infra/terraform/           # ✓ environment + modules/app + app-<name>.tf; state in Azure
   infra/registry/            # ✓ per-app records the deploy job reads (none yet)

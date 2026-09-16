@@ -6,8 +6,8 @@ Names per D5:
 
 | Skill | Verb | What the developer says |
 |-------|------|-------------------------|
-| `new-citizen-app` | **Build.** Create a conforming project *and its GitHub repo*, ready to run locally. | "new app", "start an app", "make me a dashboard for…" |
-| `deploy-citizen-app` | **Deploy.** Get the current state of the app onto the playground, and explain what happened in plain language. | "deploy", "ship it", "put this on the playground", "why did my deploy fail" |
+| `citizen-app-new-custom` | **Build.** Create a conforming project *and its GitHub repo*, ready to run locally. | "new app", "start an app", "make me a dashboard for…" |
+| `citizen-app-deploy-custom` | **Deploy.** Get the current state of the app onto the playground, and explain what happened in plain language. | "deploy", "ship it", "put this on the playground", "why did my deploy fail" |
 
 They are separate because they are used at different moments by the same person, and
 because deploy is the one that talks to the platform and needs the most careful
@@ -34,17 +34,17 @@ signed-in `gh`. The build skill checks for both first, and if either is missing,
 through `gh auth login` step by step and stops there until it is done. No other GitHub
 concept is required to use the playground.
 
-Both skills are safe to run repeatedly. `new-citizen-app` refuses to touch an existing
-directory or repo; `deploy-citizen-app` is idempotent — running it with nothing changed
+Both skills are safe to run repeatedly. `citizen-app-new-custom` refuses to touch an existing
+directory or repo; `citizen-app-deploy-custom` is idempotent — running it with nothing changed
 reports the current state and stops.
 
 **Status 2026-09-16.** Both skills exist in `.claude/skills/` of this repo and are
-exercised from a checkout of it. `new-citizen-app` runs `scripts/new-citizen-app.mjs`,
-which is built and tested. `deploy-citizen-app` is procedural instructions over `gh`; the
+exercised from a checkout of it. `citizen-app-new-custom` runs `scripts/citizen-app-new-custom.mjs`,
+which is built and tested. `citizen-app-deploy-custom` is procedural instructions over `gh`; the
 admission step is a manual operator action, not a PR the skill opens. D19 (how developers
 get the skills without this repo) is open.
 
-## `new-citizen-app` — build
+## `citizen-app-new-custom` — build
 
 A citizen developer, or Claude working with one, says "new app" and gets a directory
 that:
@@ -204,7 +204,7 @@ Every README documents exactly these three:
 Local runs must simulate the platform's identity headers, otherwise developers write
 code paths for "no user" that never occur in hosting.
 
-## `deploy-citizen-app` — deploy
+## `citizen-app-deploy-custom` — deploy
 
 Everything between "my code works locally" and "my colleagues can open it". The
 developer never sees a workflow log; they see what the platform decided and why.

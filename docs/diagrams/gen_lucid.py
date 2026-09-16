@@ -34,7 +34,7 @@ box("laneAz",  1200, 90, 800, 1120, "AZURE  (platform subscription, Entra tenant
 
 # ---- Developer lane ----
 box("claude", 70, 170, 460, 130,
-    "Claude Code + the two skills\n• new-citizen-app — build: scaffold a conforming project, create its GitHub repo\n• deploy-citizen-app — deploy: push, open admission PR, translate gate results\nSkills are advisory; everything they generate is editable.")
+    "Claude Code + the two skills\n• citizen-app-new-custom — build: scaffold a conforming project, create its GitHub repo\n• citizen-app-deploy-custom — deploy: push, open admission PR, translate gate results\nSkills are advisory; everything they generate is editable.")
 box("appdir", 70, 330, 460, 190,
     "App working copy (TypeScript + React, Node LTS)\napp.yaml — name, owner, maintainers, area, access.group, identity mode\nweb/  — React, built by Vite; never sees a secret\nserver/ — Hono: /healthz, /me, user.signin log, OBO calls\ndata/ — config.yaml, schema.ts, migrations/ (Postgres)\n           fabric/items/, fabric/checks/ (Fabric, 09)\nDockerfile — non-root, HEALTHCHECK\n.github/workflows — ONE LINE: calls the platform's reusable workflow")
 box("check", 70, 550, 460, 110,
@@ -52,7 +52,7 @@ box("users", 2060, 170, 180, 140,
 
 # ---- GitHub lane ----
 box("apprepo", 630, 210, 500, 100,
-    "App repo  <org>/<app-name>  (private)\nCreated by new-citizen-app. Developer pushes to main as themselves (D24).\nWorkflow = one line calling the reusable workflow below.")
+    "App repo  <org>/<app-name>  (private)\nCreated by citizen-app-new-custom. Developer pushes to main as themselves (D24).\nWorkflow = one line calling the reusable workflow below.")
 box("platrepo", 630, 340, 500, 220,
     "Platform repo  citizen-development-portal  (crown jewel: CODEOWNERS, no direct push, pinned Actions)\n"
     "infra/gates/ — the rule engine, Node built-ins only, AUTHORITATIVE copy\n"
@@ -115,7 +115,7 @@ box("noteOpen", 630, 140, 500, 50,
     "OPEN QUESTION — GitHub repo first, or created as part of the first push?",
     fill=C["open_"], stroke=C["openStroke"], width=2)
 box("noteOpen2", 70, 1050, 460, 140,
-    "OPEN QUESTION, detail (red box, GitHub lane) — Today 03-skills has new-citizen-app run git init + gh repo create at scaffold time, so the repo exists before any code is written (GitHub first). Alternative: deploy-citizen-app creates the repo on the first deploy (as part of push), so scaffolding needs no gh login and the admission PR and repo appear together. Affects the prerequisite check, D19 (how skills reach developers), D20 (repo settings), and when Gate 1 can start. Not yet recorded as open in 04-decisions.",
+    "OPEN QUESTION, detail (red box, GitHub lane) — Today 03-skills has citizen-app-new-custom run git init + gh repo create at scaffold time, so the repo exists before any code is written (GitHub first). Alternative: citizen-app-deploy-custom creates the repo on the first deploy (as part of push), so scaffolding needs no gh login and the admission PR and repo appear together. Affects the prerequisite check, D19 (how skills reach developers), D20 (repo settings), and when Gate 1 can start. Not yet recorded as open in 04-decisions.",
     fill=C["open_"], stroke=C["openStroke"], width=2)
 box("noteCred", 630, 1130, 500, 70,
     "KEY POINT — credential split (07). Job A runs the developer's code and holds no token. Job B holds a minutes-long OIDC token and runs no app code. The laptop holds only a gh login. No long-lived secret exists anywhere in GitHub or on the laptop; the deploy identity cannot widen what the app may do — only Terraform can.",

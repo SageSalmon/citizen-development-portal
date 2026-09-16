@@ -52,7 +52,7 @@ stays a request with a reason. Revisit once three apps have asked for the same t
 
 **Decided 2026-09-03: two skills**, build and deploy, because they are used at
 different moments and deploy carries the platform conversation. Names:
-`new-citizen-app` and `deploy-citizen-app`. Unambiguous when several skills are loaded,
+`citizen-app-new-custom` and `citizen-app-deploy-custom`. Unambiguous when several skills are loaded,
 and they read as verbs.
 
 ## D6 — Tenant and account for the first build-out
@@ -268,7 +268,7 @@ that it is absent. The platform gates do not depend on it: Gate 2 runs on every 
 `main` regardless, so an unprotected branch means a developer can push a broken commit
 and be refused, not that they can deploy one.
 
-**Affects.** `new-citizen-app` step 5.
+**Affects.** `citizen-app-new-custom` step 5.
 
 ## D21 — GitHub organization
 
@@ -502,7 +502,7 @@ GitHub account, which is an org admin. Both the platform repo and app repos live
 
 ## D32 — When the app's GitHub repo is created
 
-**Decided 2026-09-16: at scaffold.** `new-citizen-app` runs `git init`, commits, and
+**Decided 2026-09-16: at scaffold.** `citizen-app-new-custom` runs `git init`, commits, and
 `gh repo create` before the developer writes any code. The app has a home from minute one
 and a signed-in `gh` is the one prerequisite (D24). The alternative, creating the repo on
 first deploy so scaffolding needs no `gh`, was considered and not chosen: it moves the

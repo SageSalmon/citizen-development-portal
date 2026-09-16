@@ -54,7 +54,7 @@ lane(1020, 70, 700, 900, "AZURE")
 lane(1760, 70, 180, 900, "USERS")
 
 # developer lane
-skills = box(70, 120, 380, 80, "Claude Code + two skills", "new-citizen-app (build) · deploy-citizen-app (deploy)")
+skills = box(70, 120, 380, 80, "Claude Code + two skills", "citizen-app-new-custom (build) · citizen-app-deploy-custom (deploy)")
 app    = box(70, 240, 380, 100, "App working copy — TypeScript + React on Functions", "app.yaml · host.json · web/ (Vite) · server/ (handlers) · one-line workflow")
 check  = box(70, 380, 380, 70, "scripts/check.mjs — vendored copy of the gate rules", "npm run check · 7 rules · advisory, editable", fill=GATE, stroke=GATES)
 gh     = box(70, 490, 380, 60, "Developer's gh login", "the only credential on the laptop · cannot reach Azure", fill=ID, stroke=IDS)
@@ -62,7 +62,7 @@ nSkill = box(70, 600, 380, 120, "KEY POINT — skill matches gates",
              "Same rules, two copies. The skill vendors infra/gates into every app as check.mjs. Gate 2 runs the platform's copy and reports if the two differ. Every rule bites at exactly one gate (05, rule-to-gate map). A rule without a gate is a gap, not a control.",
              fill=NOTE, stroke=NOTES, sw=2, align="left", fontSize=11)
 nOpen  = box(70, 760, 380, 150, "DECIDED D32 — GitHub repo created at scaffold",
-             "new-citizen-app runs git init + gh repo create in SageSalmon before any code exists (D31, D32, 2026-09-16), and sets the repo OIDC subject template. The alternative (create on first deploy) was considered and not chosen. gh signed in to the org is the one prerequisite.",
+             "citizen-app-new-custom runs git init + gh repo create in SageSalmon before any code exists (D31, D32, 2026-09-16), and sets the repo OIDC subject template. The alternative (create on first deploy) was considered and not chosen. gh signed in to the org is the one prerequisite.",
              fill=OPEN, stroke=OPENS, sw=2, align="left", fontSize=11)
 
 # github lane

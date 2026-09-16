@@ -2,11 +2,11 @@
 // Scaffold a conforming citizen app from templates/react-app, vendor the gate engine,
 // install, check, and (unless --no-git) create its GitHub repo in the playground org.
 //
-//   node scripts/new-citizen-app.mjs --name <app> --owner <email> --area <area> \
+//   node scripts/citizen-app-new-custom.mjs --name <app> --owner <email> --area <area> \
 //        --description "<one line>" --group <entra-group> --github-login <login> \
 //        [--dir <target>] [--no-git] [--no-install]
 //
-// Node built-ins only. Used by the new-citizen-app skill (03-skills.md).
+// Node built-ins only. Used by the citizen-app-new-custom skill (03-skills.md).
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -23,7 +23,7 @@ const name = opt("name"); const owner = opt("owner"); const area = opt("area");
 const description = opt("description", "A citizen app."); const group = opt("group", name ? `app-${name}-users` : undefined);
 const login = opt("github-login"); const target = resolve(opt("dir", name ? join(platformRoot, "..", name) : "."));
 
-function die(msg) { console.error(`new-citizen-app: ${msg}`); process.exit(1); }
+function die(msg) { console.error(`citizen-app-new-custom: ${msg}`); process.exit(1); }
 if (!name || !/^[a-z][a-z0-9-]{1,31}$/.test(name)) die("--name must be lowercase letters, digits, hyphens; 2-32 chars; start with a letter");
 if (!owner || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(owner)) die("--owner must be an email address");
 if (!area) die("--area is required (business area, for cost reporting)");
@@ -50,7 +50,7 @@ mkdirSync(join(target, "scripts"), { recursive: true });
 for (const f of ["check.mjs", "platform.json", "allowlist.json"]) cpSync(join(platformRoot, "infra/gates", f), join(target, "scripts", f));
 cpSync(join(platformRoot, "infra/gates/lib"), join(target, "scripts/lib"), { recursive: true });
 cpSync(join(platformRoot, "infra/gates/rules"), join(target, "scripts/rules"), { recursive: true });
-writeFileSync(join(target, "scripts/README.md"), `check.mjs and its lib/, rules/, platform.json, allowlist.json are a vendored copy of the\nplatform's gate engine (${platform.org}/${platform.platformRepo}, infra/gates). Edit freely; the platform\nruns its own copy and reports if the two disagree. Regenerate with the new-citizen-app skill.\n`);
+writeFileSync(join(target, "scripts/README.md"), `check.mjs and its lib/, rules/, platform.json, allowlist.json are a vendored copy of the\nplatform's gate engine (${platform.org}/${platform.platformRepo}, infra/gates). Edit freely; the platform\nruns its own copy and reports if the two disagree. Regenerate with the citizen-app-new-custom skill.\n`);
 
 const run = (cmd, a, opts = {}) => { const r = spawnSync(cmd, a, { cwd: target, stdio: "inherit", ...opts }); if (r.status !== 0) die(`${cmd} ${a.join(" ")} failed`); };
 

@@ -1,9 +1,9 @@
 ---
-name: deploy-citizen-app
+name: citizen-app-deploy-custom
 description: Deploy a citizen app to the playground and explain what the platform decided in plain language — run the checks locally, confirm the app is admitted, push to main, follow the build-and-deploy run, and translate gate results. Use when someone says "deploy", "ship it", "put this on the playground", "why did my deploy fail", or asks whether their app is live.
 ---
 
-# deploy-citizen-app — deploy
+# citizen-app-deploy-custom — deploy
 
 Everything between "my code works locally" and "my colleagues can open it". The developer
 never reads a workflow log; they hear what the platform decided and why.

@@ -249,7 +249,7 @@ infra/
   fabric-checks.yml      # ○
   cert-renew.yml         # ○ (no domain yet)
 scripts/
-  new-citizen-app.mjs    # ✓ scaffold: template + vendored gates + install + check + repo
+  citizen-app-new-custom.mjs    # ✓ scaffold: template + vendored gates + install + check + repo
   write-registry.mjs     # ✓ terraform output -> infra/registry/*.json
 templates/react-app/     # ✓ the one template
 policy/, dashboard/, fabric/   # ○

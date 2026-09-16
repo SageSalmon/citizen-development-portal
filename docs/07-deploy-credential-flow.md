@@ -22,7 +22,7 @@ gh token (developer)  ──►  push to app repo main
 
 | Step | Credential in play | Who holds it | Lifetime | Can reach Azure? |
 |------|--------------------|--------------|----------|------------------|
-| Laptop: `deploy-citizen-app` | The developer's own `gh` login | Developer, OS keyring | GitHub-managed | **No.** No Azure CLI, no Azure identity, nothing to install. |
+| Laptop: `citizen-app-deploy-custom` | The developer's own `gh` login | Developer, OS keyring | GitHub-managed | **No.** No Azure CLI, no Azure identity, nothing to install. |
 | Push to `main` | Same | Same | — | No |
 | Reusable workflow, job A (build, test, `check`, scan) | **None.** `id-token: write` is *not* granted to this job. | — | — | **No.** This is the job that runs the app's code. |
 | Reusable workflow, job B (deploy) | GitHub OIDC JWT, exchanged for an Azure access token by `azure/login` | The runner, in memory | Minutes | Yes, as the app's deploy identity (a user-assigned managed identity), narrowly. |
@@ -78,7 +78,7 @@ GitHub's *default* subject is `repo:<org>/<repo>:ref:refs/heads/main`. It says n
 about which workflow is running. With the default, **any** workflow in the app repo on
 `main` would match, and a developer could write a workflow that skips every gate and
 deploys directly. The platform must set the subject claim template per repo to include `job_workflow_ref`;
-`scripts/new-citizen-app.mjs` does this with `PUT /repos/{org}/{repo}/actions/oidc/customization/sub`
+`scripts/citizen-app-new-custom.mjs` does this with `PUT /repos/{org}/{repo}/actions/oidc/customization/sub`
 right after creating the repo (✓). An organization-wide template needs `admin:org` and is
 not set. Verifying the setting at admission is ○. This one setting is the difference between
 "the gates are enforced" and "the gates are a suggestion".

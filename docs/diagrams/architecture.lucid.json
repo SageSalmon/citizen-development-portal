@@ -135,7 +135,7 @@
               "style": "solid"
             }
           },
-          "text": "Claude Code + the two skills\n• new-citizen-app — build: scaffold a conforming project, create its GitHub repo\n• deploy-citizen-app — deploy: push, open admission PR, translate gate results\nSkills are advisory; everything they generate is editable."
+          "text": "Claude Code + the two skills\n• citizen-app-new-custom — build: scaffold a conforming project, create its GitHub repo\n• citizen-app-deploy-custom — deploy: push, open admission PR, translate gate results\nSkills are advisory; everything they generate is editable."
         },
         {
           "id": "appdir",
@@ -267,7 +267,7 @@
               "style": "solid"
             }
           },
-          "text": "App repo  <org>/<app-name>  (private)\nCreated by new-citizen-app. Developer pushes to main as themselves (D24).\nWorkflow = one line calling the reusable workflow below."
+          "text": "App repo  <org>/<app-name>  (private)\nCreated by citizen-app-new-custom. Developer pushes to main as themselves (D24).\nWorkflow = one line calling the reusable workflow below."
         },
         {
           "id": "platrepo",
@@ -641,7 +641,7 @@
               "style": "solid"
             }
           },
-          "text": "OPEN QUESTION, detail (red box, GitHub lane) — Today 03-skills has new-citizen-app run git init + gh repo create at scaffold time, so the repo exists before any code is written (GitHub first). Alternative: deploy-citizen-app creates the repo on the first deploy (as part of push), so scaffolding needs no gh login and the admission PR and repo appear together. Affects the prerequisite check, D19 (how skills reach developers), D20 (repo settings), and when Gate 1 can start. Not yet recorded as open in 04-decisions."
+          "text": "OPEN QUESTION, detail (red box, GitHub lane) — Today 03-skills has citizen-app-new-custom run git init + gh repo create at scaffold time, so the repo exists before any code is written (GitHub first). Alternative: citizen-app-deploy-custom creates the repo on the first deploy (as part of push), so scaffolding needs no gh login and the admission PR and repo appear together. Affects the prerequisite check, D19 (how skills reach developers), D20 (repo settings), and when Gate 1 can start. Not yet recorded as open in 04-decisions."
         },
         {
           "id": "noteCred",

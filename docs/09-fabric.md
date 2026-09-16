@@ -253,7 +253,7 @@ and pretending otherwise would be a lie in the template. Instead:
 
 1. The developer opens the app's workspace in the Fabric portal, where they are Admin,
    and experiments: writes a notebook, tries a query, trains a model.
-2. When something is worth keeping, `deploy-citizen-app` offers **pull from workspace**:
+2. When something is worth keeping, `citizen-app-deploy-custom` offers **pull from workspace**:
    it exports the chosen items' definitions into `data/fabric/items/` using the
    developer's own delegated Fabric token, obtained with a device-code sign-in as the
    developer. No Azure CLI, no subscription, nothing installed. The export is a plain
