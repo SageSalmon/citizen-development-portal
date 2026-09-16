@@ -47,6 +47,8 @@ never reads a workflow log; they hear what the platform decided and why.
 
 ## What is real and what is not (2026-09-16)
 
-Real: steps 1, 2, 4, 5, 6 with the reusable workflow as built. Admission (step 3) is a
-manual operator step, not a PR the skill opens. Health after deploy is verified only as
-"anonymous request is refused", not as an authenticated 200 (12-known-gaps.md).
+This skill is instructions, not code; there is no script behind it. Steps 1, 2, 4, 5, 6
+were followed by hand for the three `hello-citizen` runs on 2026-09-16 and the reusable
+workflow they rely on is built and has deployed. Admission (step 3) is a manual operator
+step, not a PR the skill opens. Health after deploy is verified only as "anonymous request
+is refused", not as an authenticated 200 (12-known-gaps.md).

@@ -58,6 +58,9 @@ template. If the check fails, the template has a bug: report it, do not hand ove
 
 ## What is real and what is not (2026-09-16)
 
-Real: the template, the vendored check, repo creation, the OIDC subject template.
-Not yet: distributing this skill to developers who do not have this repo (D19); Renovate
-enablement; the `react-fullstack` template.
+Real and exercised: template copy, token substitution, vendored check, install, check
+(both scaffolds so far passed). Written but **not yet run through this script**: `git init`,
+commit, `gh repo create`, push, and the OIDC subject template. For `hello-citizen` those
+were done by hand with the same commands and worked; the script's own path is unproven
+until a scaffold runs without `--no-git`. Not built: distribution without this repo (D19),
+Renovate enablement, the `react-fullstack` template.

@@ -38,11 +38,23 @@ Both skills are safe to run repeatedly. `citizen-app-new-custom` refuses to touc
 directory or repo; `citizen-app-deploy-custom` is idempotent — running it with nothing changed
 reports the current state and stops.
 
-**Status 2026-09-16.** Both skills exist in `.claude/skills/` of this repo and are
-exercised from a checkout of it. `citizen-app-new-custom` runs `scripts/citizen-app-new-custom.mjs`,
-which is built and tested. `citizen-app-deploy-custom` is procedural instructions over `gh`; the
-admission step is a manual operator action, not a PR the skill opens. D19 (how developers
-get the skills without this repo) is open.
+**Status 2026-09-16: what works in this folder, step by step.** Both skills live in
+`.claude/skills/` and run from a checkout of this repo (D19, distribution, is open).
+
+| Step | Status | Evidence |
+|------|--------|----------|
+| Copy template, substitute inputs, vendor the gate engine | ✓ built and run | produced the gate fixture and `hello-citizen` |
+| `npm install --ignore-scripts` and the vendored check | ✓ built and run | both scaffolds passed check |
+| `git init`, first commit | ◐ code exists, **not run via the script** | `hello-citizen` was committed by hand; both scaffolds used `--no-git` because the `gh` token lacked the `workflow` scope at the time |
+| `gh repo create` in the org and push | ◐ code exists, **not run via the script** | repo created and pushed by hand with `gh` and `git` |
+| Set the repo's OIDC subject template | ◐ code exists, **not run via the script** | set by hand with `gh api`; confirmed working by the first deploy |
+| Deploy skill: check, admitted?, push, watch, translate | ◐ instructions only | followed by hand for the three `hello-citizen` runs; no script |
+| Admission | ○ manual operator step | `app-<name>.tf` written by hand, applied, registry committed |
+| Distributing the skills to developers without this repo | ○ | D19 |
+
+No MCP connector is involved anywhere: the skills use `node`, `git`, and `gh`. The
+combined scaffold-to-repo path has never run once as a single invocation; verifying it means
+scaffolding a throwaway app with the full path.
 
 ## `citizen-app-new-custom` — build
 
