@@ -70,6 +70,11 @@ a fact plus the consequence of not knowing it. Environment specifics are in
   release, under seven days old. Pins are now the newest release at least seven days old,
   chosen by a small registry query. The abbreviated registry document
   (`application/vnd.npm.install-v1+json`) has no `time` field; the rule fetches the full one.
+- **First real run failed on `node --test tests/`.** Node 26 (laptop) treats a directory
+  argument as "run the tests in here"; Node 24 (the runner, and the Functions runtime) treats
+  it as a module path and fails with MODULE_NOT_FOUND. The template now uses an explicit
+  glob, `node --test "tests/**/*.test.ts"`, which both accept. Gate 2 had already passed on
+  the real runner before this; the test step was the first laptop-versus-runner difference.
 - **`node --test <dir>` recurses into fixtures.** The gate tests must be invoked as
   `node --test infra/gates/tests/*.test.mjs` or they run the fixture app's tests too.
 - **A route "exists" only if it is registered.** The healthz rule first matched the string
