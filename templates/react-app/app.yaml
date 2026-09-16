@@ -1,0 +1,31 @@
+# The one file the developer edits that the platform reads. Schema: 02-hosting-contract.md.
+name: __APP_NAME__
+owner: __OWNER_EMAIL__
+maintainers: []
+area: __AREA__
+description: __DESCRIPTION__
+
+# Who may sign in. An Entra group the owner controls. There is no public app.
+access:
+  group: __ACCESS_GROUP__
+
+data:
+  classification: internal     # public | internal | confidential  (regulated is refused, D7)
+
+identity:
+  mode: user                   # user: the app acts as the signed-in user. app: standing identity, capped at the owner.
+  roles: []
+  delegated_scopes: []
+
+runtime:
+  node: 24                     # Azure Functions Flex Consumption runtime (D30)
+
+env:
+  LOG_LEVEL: info
+
+secrets: {}
+
+# Interim (D15): GitHub logins allowed to deploy. Pushes by anyone else build but do not deploy.
+github:
+  deployers:
+    - __GITHUB_LOGIN__

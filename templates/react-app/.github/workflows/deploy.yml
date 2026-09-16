@@ -1,0 +1,13 @@
+# The platform's reusable workflow does the build, the gates, and the deploy (D3).
+# Replacing or pinning this call produces a workflow that cannot deploy (07).
+name: playground
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  playground:
+    uses: SageSalmon/citizen-development-portal/.github/workflows/build-and-deploy.yml@main
+    permissions:
+      contents: read
+      id-token: write

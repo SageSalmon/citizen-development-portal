@@ -1,0 +1,30 @@
+# --- Node ---
+node_modules/
+dist/
+*.log
+
+# --- Terraform ---
+infra/terraform/.terraform/
+infra/terraform/**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+# Operator-local values (tenant, subscription, people, repo ids). Auto-loaded by
+# Terraform, never committed. Copy the .example and replace <REPLACE_*> tokens.
+*.auto.tfvars
+# Backend config names a specific storage account. Copy the .example.
+infra/terraform/envs/*.backend.hcl
+!infra/terraform/envs/*.backend.hcl.example
+
+# --- Environment specifics (design-docs rule 5) ---
+docs/environments/*.md
+!docs/environments/README.md
+!docs/environments/example.md
+infra/env.sh
+
+# --- Local ---
+.env
+.env.*
+!.env.example
+.DS_Store
+.idea/

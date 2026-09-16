@@ -1,0 +1,31 @@
+# The one file the developer edits that the platform reads. Schema: 02-hosting-contract.md.
+name: passing-app
+owner: owner@example.org
+maintainers: []
+area: finance
+description: Gate engine passing fixture
+
+# Who may sign in. An Entra group the owner controls. There is no public app.
+access:
+  group: app-passing-app-users
+
+data:
+  classification: internal     # public | internal | confidential  (regulated is refused, D7)
+
+identity:
+  mode: user                   # user: the app acts as the signed-in user. app: standing identity, capped at the owner.
+  roles: []
+  delegated_scopes: []
+
+runtime:
+  node: 24                     # Azure Functions Flex Consumption runtime (D30)
+
+env:
+  LOG_LEVEL: info
+
+secrets: {}
+
+# Interim (D15): GitHub logins allowed to deploy. Pushes by anyone else build but do not deploy.
+github:
+  deployers:
+    - example-login

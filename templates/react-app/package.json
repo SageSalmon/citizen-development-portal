@@ -1,0 +1,31 @@
+{
+  "name": "__APP_NAME__",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "__DESCRIPTION__",
+  "main": "dist/server/index.js",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "vite build && tsc -p server/tsconfig.json",
+    "test": "node --test tests/",
+    "check": "node scripts/check.mjs",
+    "start": "node server/local.ts"
+  },
+  "dependencies": {
+    "@azure/functions": "4.16.2",
+    "react": "19.0.8",
+    "react-dom": "19.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.1",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "@vitejs/plugin-react": "6.1.1",
+    "typescript": "5.9.3",
+    "vite": "8.2.2"
+  }
+}

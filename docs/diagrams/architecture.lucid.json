@@ -1,0 +1,1619 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "page1",
+      "title": "Citizen app playground — architecture",
+      "shapes": [
+        {
+          "id": "title",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 40,
+            "y": 20,
+            "w": 2220,
+            "h": 50
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#FFFFFF",
+              "width": 0,
+              "style": "solid"
+            }
+          },
+          "text": "Citizen app playground — architecture (design only, 2026-09-10). Skill suggests; infrastructure enforces."
+        },
+        {
+          "id": "laneDev",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 40,
+            "y": 90,
+            "w": 520,
+            "h": 1120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F4F6F8"
+            },
+            "stroke": {
+              "color": "#8A94A6",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "DEVELOPER LAPTOP\n(no Azure identity, no Docker required)"
+        },
+        {
+          "id": "laneGh",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 600,
+            "y": 90,
+            "w": 560,
+            "h": 1120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F4F6F8"
+            },
+            "stroke": {
+              "color": "#8A94A6",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "GITHUB  (<org>)"
+        },
+        {
+          "id": "laneUsers",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 2040,
+            "y": 90,
+            "w": 220,
+            "h": 1120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F4F6F8"
+            },
+            "stroke": {
+              "color": "#8A94A6",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "USERS"
+        },
+        {
+          "id": "laneAz",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1200,
+            "y": 90,
+            "w": 800,
+            "h": 1120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F4F6F8"
+            },
+            "stroke": {
+              "color": "#8A94A6",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "AZURE  (platform subscription, Entra tenant)"
+        },
+        {
+          "id": "claude",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 170,
+            "w": 460,
+            "h": 130
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Claude Code + the two skills\n• new-citizen-app — build: scaffold a conforming project, create its GitHub repo\n• deploy-citizen-app — deploy: push, open admission PR, translate gate results\nSkills are advisory; everything they generate is editable."
+        },
+        {
+          "id": "appdir",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 330,
+            "w": 460,
+            "h": 190
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "App working copy (TypeScript + React, Node LTS)\napp.yaml — name, owner, maintainers, area, access.group, identity mode\nweb/  — React, built by Vite; never sees a secret\nserver/ — Hono: /healthz, /me, user.signin log, OBO calls\ndata/ — config.yaml, schema.ts, migrations/ (Postgres)\n           fabric/items/, fabric/checks/ (Fabric, 09)\nDockerfile — non-root, HEALTHCHECK\n.github/workflows — ONE LINE: calls the platform's reusable workflow"
+        },
+        {
+          "id": "check",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 550,
+            "w": 460,
+            "h": 110
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E8F1FB"
+            },
+            "stroke": {
+              "color": "#2B6CB0",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "scripts/check.mjs  (vendored copy of infra/gates)\nnpm run check — same rules, same messages, seconds not minutes.\nAdvisory: the developer can edit it; the platform copy wins."
+        },
+        {
+          "id": "ghlogin",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 690,
+            "w": 460,
+            "h": 80
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F3ECFA"
+            },
+            "stroke": {
+              "color": "#6B46C1",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Developer's own gh login (OS keyring)\nThe only credential on the laptop. Cannot reach Azure."
+        },
+        {
+          "id": "fabricpull",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 800,
+            "w": 460,
+            "h": 90
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "dashed"
+            }
+          },
+          "text": "Pull from workspace (Fabric apps only)\nDevice-code sign-in as the developer → export item definitions\ninto data/fabric/items/. Workspace→repo is always the developer."
+        },
+        {
+          "id": "users",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 2060,
+            "y": 170,
+            "w": 180,
+            "h": 140
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Citizen users\nSign in with Entra; must be in the app's access group.\nNo public app, no anonymous path."
+        },
+        {
+          "id": "apprepo",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 210,
+            "w": 500,
+            "h": 100
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "App repo  <org>/<app-name>  (private)\nCreated by new-citizen-app. Developer pushes to main as themselves (D24).\nWorkflow = one line calling the reusable workflow below."
+        },
+        {
+          "id": "platrepo",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 340,
+            "w": 500,
+            "h": 220
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Platform repo  citizen-development-portal  (crown jewel: CODEOWNERS, no direct push, pinned Actions)\ninfra/gates/ — the rule engine, Node built-ins only, AUTHORITATIVE copy\ninfra/workflows/build-and-deploy.yml — the reusable workflow (Gates 2+3)\ninfra/terraform/ — environment, dns, modules/app, modules/postgres, modules/fabric\ninfra/apps/<name>.tf — one per admitted app, generated from app.yaml\ninfra/fabric/publish.mjs + runner.Notebook — Fabric publisher and checks runner\ninfra/policy/, infra/dashboard/"
+        },
+        {
+          "id": "gate1",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 590,
+            "w": 500,
+            "h": 120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E8F1FB"
+            },
+            "stroke": {
+              "color": "#2B6CB0",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "GATE 1 — ADMISSION  (PR to platform repo, human merge)\nowner & maintainers real Entra users · access.group exists · classification ≠ regulated\nidentity.roles ⊆ owner's roles · no never-grantable role · dedicated DB needs reason\nFabric shortcuts point only at data the owner can read"
+        },
+        {
+          "id": "gate2",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 750,
+            "w": 500,
+            "h": 150
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E8F1FB"
+            },
+            "stroke": {
+              "color": "#2B6CB0",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "GATE 2 — BUILD  (reusable workflow, job A: NO TOKEN, runs app code)\nlockfile · exact pins · ignore-scripts · min release age (7d) · dep budget + allow-list\nnpm audit · secret scan · Dockerfile non-root · image scan · vendored check == platform check\nmigrations lint (08) · Fabric items + checks lint (09)\nBuilds for everyone; deploys only if pusher is owner/maintainer (D15)"
+        },
+        {
+          "id": "gate3",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 920,
+            "w": 500,
+            "h": 190
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E8F1FB"
+            },
+            "stroke": {
+              "color": "#2B6CB0",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "GATE 3 — DEPLOY  (same workflow, job B: HOLDS OIDC TOKEN, never runs app code)\nOIDC JWT → per-app deploy identity (federated on repo + job_workflow_ref)\n1. Postgres migrations (migration identity, DDL, transactions)\n2. Publish checks runner + data/fabric/items to the app's workspace\n3. Run checks marked deploy — a block failure stops here\n4. Push image digest → ACR; update container app → new revision\n5. /healthz must answer 200 or traffic stays on the old revision"
+        },
+        {
+          "id": "entra",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1620,
+            "y": 170,
+            "w": 350,
+            "h": 140
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F3ECFA"
+            },
+            "stroke": {
+              "color": "#6B46C1",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Entra ID\n• Built-in auth for every app (requireAuthentication)\n• App access groups (owner-controlled)\n• Platform monitoring identity (Viewer everywhere)\n• Per-app deploy identity + federated credential\n• Per-app runtime managed identity (nothing by default)"
+        },
+        {
+          "id": "tf",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1230,
+            "y": 170,
+            "w": 360,
+            "h": 140
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#2F3B52",
+              "width": 1.5,
+              "style": "dashed"
+            }
+          },
+          "text": "Terraform (platform identity, OIDC, only from platform repo main)\nProvisions per admitted app: container app + auth config, MI + verified roles, Key Vault access, tags, budget alert, Postgres db + DML role, Fabric workspace + role assignments.\nDeploy identity cannot change any of this."
+        },
+        {
+          "id": "aca",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1230,
+            "y": 350,
+            "w": 500,
+            "h": 170
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "Container Apps environment   https://<app>.citizenappjhc.com  (one wildcard cert, DNS zone)\n┌ App container (one per app, scale-to-zero) ───────────────────┐\n│ Node LTS · $PORT · reads env + Key Vault refs · logs JSON to stdout │\n│ Identity headers from built-in auth (X-MS-CLIENT-PRINCIPAL-*)      │\n│ Runtime MI: own secrets + DML on own DB (+ declared roles ⊆ owner) │\n└────────────────────────────────────────────────────────────────┘"
+        },
+        {
+          "id": "acr",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1760,
+            "y": 350,
+            "w": 210,
+            "h": 80
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Container Registry\nimage by commit + SBOM + scan results"
+        },
+        {
+          "id": "kv",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1760,
+            "y": 450,
+            "w": 210,
+            "h": 70
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Key Vault\nsecrets as refs, resolved at start"
+        },
+        {
+          "id": "pg",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1230,
+            "y": 560,
+            "w": 360,
+            "h": 120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "PostgreSQL Flexible Server (shared; dedicated on reason)\nOne database + one role per app · Entra auth, no passwords\nMigration identity: DDL · App runtime identity: DML only\nLocal dev: PGlite (same dialect)"
+        },
+        {
+          "id": "fabric",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1620,
+            "y": 560,
+            "w": 350,
+            "h": 120
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Fabric workspace, one per app (shared capacity)\nLakehouse · Environment · Notebook · DataPipeline · MLExperiment/MLModel\nPlatform checks runner (overwritten every deploy)\nOwner=Admin · deploy identity=Contributor · app reads SQL endpoint as the user"
+        },
+        {
+          "id": "la",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1230,
+            "y": 720,
+            "w": 360,
+            "h": 100
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Log Analytics\nstdout logs · user.signin events · heartbeats · gate results\n(app, gate, rule, pass/fail, commit, deployed-by UPN) · cost export by tag\nFabric publish + check results"
+        },
+        {
+          "id": "dash",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1620,
+            "y": 720,
+            "w": 350,
+            "h": 100
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EEF7F0"
+            },
+            "stroke": {
+              "color": "#2F855A",
+              "width": 1.5,
+              "style": "solid"
+            }
+          },
+          "text": "Health dashboard (Azure Monitor Workbook, D13)\nPLATFORM TOOLING — not a playground app; reader roles across the fleet\nFleet view · app view · gate feed · data checks · who used it"
+        },
+        {
+          "id": "gate4",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1230,
+            "y": 860,
+            "w": 740,
+            "h": 130
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E8F1FB"
+            },
+            "stroke": {
+              "color": "#2B6CB0",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "GATE 4 — RUNTIME  (Terraform-held config, Azure Policy, scheduled workflows in the platform repo)\nIngress always authenticated · images from platform registry only · required tags · resource bounds\nHeartbeat every 15 min as monitoring identity (3 misses = down) · weekly image rescan · daily Fabric checks\nMonthly: owner still enabled; app roles and shortcuts still ⊆ owner · traffic-vs-signin signal · cert expiry watch"
+        },
+        {
+          "id": "noteSkill",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 920,
+            "w": 460,
+            "h": 100
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFF4B8"
+            },
+            "stroke": {
+              "color": "#B08900",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "KEY POINT — skill ↔ gates match\nOne rule implementation, two owners. The skill vendors infra/gates into every app as scripts/check.mjs; Gate 2 runs the authoritative copy from the platform repo and reports if the two disagree. Every rule in check bites at exactly one gate (05, rule-to-gate map). A rule with a skill tick and no gate is a gap, not a control."
+        },
+        {
+          "id": "noteOpen",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 140,
+            "w": 500,
+            "h": 50
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FDE2E2"
+            },
+            "stroke": {
+              "color": "#B42318",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "OPEN QUESTION — GitHub repo first, or created as part of the first push?"
+        },
+        {
+          "id": "noteOpen2",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 70,
+            "y": 1050,
+            "w": 460,
+            "h": 140
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FDE2E2"
+            },
+            "stroke": {
+              "color": "#B42318",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "OPEN QUESTION, detail (red box, GitHub lane) — Today 03-skills has new-citizen-app run git init + gh repo create at scaffold time, so the repo exists before any code is written (GitHub first). Alternative: deploy-citizen-app creates the repo on the first deploy (as part of push), so scaffolding needs no gh login and the admission PR and repo appear together. Affects the prerequisite check, D19 (how skills reach developers), D20 (repo settings), and when Gate 1 can start. Not yet recorded as open in 04-decisions."
+        },
+        {
+          "id": "noteCred",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 630,
+            "y": 1130,
+            "w": 500,
+            "h": 70
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFF4B8"
+            },
+            "stroke": {
+              "color": "#B08900",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "KEY POINT — credential split (07). Job A runs the developer's code and holds no token. Job B holds a minutes-long OIDC token and runs no app code. The laptop holds only a gh login. No long-lived secret exists anywhere in GitHub or on the laptop; the deploy identity cannot widen what the app may do — only Terraform can."
+        },
+        {
+          "id": "noteData",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1230,
+            "y": 1020,
+            "w": 740,
+            "h": 90
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFF4B8"
+            },
+            "stroke": {
+              "color": "#B08900",
+              "width": 2,
+              "style": "solid"
+            }
+          },
+          "text": "KEY POINT — two data targets, one deploy path (08, 09). Postgres and Fabric are both declared in data/, both applied by job B before the revision switch, both stop the deploy on failure. The app's runtime identity is DML-only on its own database and reads Fabric as the signed-in user; only the platform's identities can change a schema or publish an item."
+        }
+      ],
+      "lines": [
+        {
+          "id": "l1",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "claude",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "appdir",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "scaffold, commit",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l2",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "appdir",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "check",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "npm run check",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l3",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "appdir",
+            "position": {
+              "x": 1,
+              "y": 0.2
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "apprepo",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "git push main, as the developer",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l4",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "platrepo",
+            "position": {
+              "x": 0,
+              "y": 0.3
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "check",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "dashed"
+          },
+          "text": [
+            {
+              "text": "vendored copy of infra/gates",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l5",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "apprepo",
+            "position": {
+              "x": 0.9,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "gate2",
+            "position": {
+              "x": 0.9,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "one-line workflow calls reusable workflow",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l6",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "platrepo",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "gate2",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "authoritative rules + workflow",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l7",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "claude",
+            "position": {
+              "x": 1,
+              "y": 0.8
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "gate1",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "dashed"
+          },
+          "text": [
+            {
+              "text": "deploy skill opens admission PR (infra/apps/<name>.tf)",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l8",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate1",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "tf",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "merge → terraform apply",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l9",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate2",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "gate3",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "image digest as artifact",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l11",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate3",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "acr",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "push image",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l12",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate3",
+            "position": {
+              "x": 1,
+              "y": 0.3
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "aca",
+            "position": {
+              "x": 0,
+              "y": 0.9
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "update container app → revision",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l13",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate3",
+            "position": {
+              "x": 1,
+              "y": 0.6
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "pg",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "1. migrations",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l14",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate3",
+            "position": {
+              "x": 1,
+              "y": 0.8
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "fabric",
+            "position": {
+              "x": 0,
+              "y": 0.8
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "2–3. publish items, run deploy checks",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l15",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "users",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "entra",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#6B46C1",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "sign in → app URL",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l16",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "entra",
+            "position": {
+              "x": 0.3,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "aca",
+            "position": {
+              "x": 0.8,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#6B46C1",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "authenticated requests only; identity headers",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l17",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "aca",
+            "position": {
+              "x": 1,
+              "y": 0.6
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "kv",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "secret refs",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l18",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "aca",
+            "position": {
+              "x": 0.3,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "pg",
+            "position": {
+              "x": 0.3,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "DML as runtime MI",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l19",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "aca",
+            "position": {
+              "x": 0.8,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "fabric",
+            "position": {
+              "x": 0.3,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "SQL endpoint, as the signed-in user",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l20",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "aca",
+            "position": {
+              "x": 0.1,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "la",
+            "position": {
+              "x": 0.1,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "stdout JSON, user.signin",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l21",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "la",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "dash",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "queries",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l22",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate4",
+            "position": {
+              "x": 0.15,
+              "y": 0
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "aca",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "dashed"
+          },
+          "text": [
+            {
+              "text": "heartbeat 15 min",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l23",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate4",
+            "position": {
+              "x": 0.8,
+              "y": 0
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "fabric",
+            "position": {
+              "x": 0.8,
+              "y": 1
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "dashed"
+          },
+          "text": [
+            {
+              "text": "daily checks",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l24",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "gate4",
+            "position": {
+              "x": 0.4,
+              "y": 0
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "la",
+            "position": {
+              "x": 0.6,
+              "y": 1
+            }
+          },
+          "stroke": {
+            "color": "#2B6CB0",
+            "width": 1.5,
+            "style": "dashed"
+          },
+          "text": [
+            {
+              "text": "results",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l26",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "tf",
+            "position": {
+              "x": 0.3,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "aca",
+            "position": {
+              "x": 0.2,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#2F3B52",
+            "width": 1.5,
+            "style": "dashed"
+          },
+          "text": [
+            {
+              "text": "provisions",
+              "position": 0.5,
+              "side": "middle"
+            }
+          ]
+        },
+        {
+          "id": "l27",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "noteSkill",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "check",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "stroke": {
+            "color": "#B08900",
+            "width": 1.5,
+            "style": "dashed"
+          }
+        },
+        {
+          "id": "l28",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "noteSkill",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "gate2",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#B08900",
+            "width": 1.5,
+            "style": "dashed"
+          }
+        },
+        {
+          "id": "l29",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "noteOpen",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "apprepo",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#B42318",
+            "width": 1.5,
+            "style": "dashed"
+          }
+        },
+        {
+          "id": "l30",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "noteOpen",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "claude",
+            "position": {
+              "x": 1,
+              "y": 0.3
+            }
+          },
+          "stroke": {
+            "color": "#B42318",
+            "width": 1.5,
+            "style": "dashed"
+          }
+        }
+      ]
+    }
+  ]
+}

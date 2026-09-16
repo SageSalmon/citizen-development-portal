@@ -1,0 +1,137 @@
+# The playground's reusable workflow (Gates 2 and 3). App repos call it with one line.
+#
+#   job build   runs the app's code. Holds NO cloud token (no id-token permission).
+#   job deploy  holds a minutes-long OIDC token for THIS app's deploy identity. Runs no app code.
+#
+# The deploy identity's federated credential trusts only
+#   repo:<org>/<app>:job_workflow_ref:<org>/citizen-development-portal/.github/workflows/build-and-deploy.yml@refs/heads/main
+# so a copied, edited, or pinned workflow gets no token (07).
+#
+# NOT YET (recorded in docs/12-known-gaps.md): actions pinned to SHAs, authenticated
+# post-deploy health probe, deploy record to Log Analytics, rollback on failed probe.
+name: build-and-deploy
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: build + gates (no credentials)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      app: ${{ steps.meta.outputs.app }}
+      deployers: ${{ steps.meta.outputs.deployers }}
+      node: ${{ steps.meta.outputs.node }}
+    steps:
+      - name: Check out the app
+        uses: actions/checkout@v4
+        with:
+          path: app
+      - name: Check out the platform (the authoritative gate rules)
+        uses: actions/checkout@v4
+        with:
+          repository: SageSalmon/citizen-development-portal
+          ref: main
+          path: platform
+      - name: Read app.yaml
+        id: meta
+        run: |
+          META=$(node platform/infra/gates/bin/app-meta.mjs --app app)
+          echo "app=$(echo "$META" | node -pe 'JSON.parse(require("fs").readFileSync(0)).name')" >> "$GITHUB_OUTPUT"
+          echo "deployers=$(echo "$META" | node -pe 'JSON.stringify(JSON.parse(require("fs").readFileSync(0)).deployers)')" >> "$GITHUB_OUTPUT"
+          echo "node=$(echo "$META" | node -pe 'JSON.parse(require("fs").readFileSync(0)).node')" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.meta.outputs.node }}
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install (locked, no scripts)
+        working-directory: app
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Gate 2 — platform rules (the platform's copy, not the app's)
+        working-directory: app
+        run: |
+          set +e
+          node ../platform/infra/gates/check.mjs --online | tee gate-report.txt
+          RC=${PIPESTATUS[0]}
+          { echo "## Gate 2 — build rules"; echo; echo '```'; cat gate-report.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          exit $RC
+      - name: Vendored check agrees with the platform copy
+        working-directory: app
+        run: |
+          if [ -f scripts/check.mjs ] && ! diff -rq scripts/rules ../platform/infra/gates/rules >/dev/null; then
+            echo "::warning::scripts/check.mjs in this repo differs from the platform's rules. The platform's copy is the one that decides."
+          fi
+      - name: Test
+        working-directory: app
+        run: npm test
+      - name: Build
+        working-directory: app
+        run: npm run build
+      - name: Package (production dependencies only)
+        working-directory: app
+        run: |
+          npm prune --omit=dev --ignore-scripts
+          zip -qr ../package.zip host.json package.json package-lock.json dist node_modules
+          echo "package: $(du -h ../package.zip | cut -f1)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: package.zip
+          retention-days: 14
+
+  deploy:
+    name: deploy (OIDC, no app code)
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && contains(fromJSON(needs.build.outputs.deployers), github.actor)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out the platform registry (never the app)
+        uses: actions/checkout@v4
+        with:
+          repository: SageSalmon/citizen-development-portal
+          ref: main
+          path: platform
+          sparse-checkout: infra/registry
+      - name: Is this app admitted?
+        id: reg
+        run: |
+          F="platform/infra/registry/${{ needs.build.outputs.app }}.json"
+          if [ ! -f "$F" ]; then
+            echo "::error::${{ needs.build.outputs.app }} is not admitted: no $F in the platform repo. Ask the platform team to admit the app (Gate 1)."; exit 1
+          fi
+          for k in resource_group function_app hostname deploy_client_id tenant_id subscription_id; do
+            echo "$k=$(node -pe "JSON.parse(require('fs').readFileSync('$F','utf8')).$k")" >> "$GITHUB_OUTPUT"
+          done
+      - uses: actions/download-artifact@v4
+        with:
+          name: package
+      - name: Sign in as this app's deploy identity (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ steps.reg.outputs.deploy_client_id }}
+          tenant-id: ${{ steps.reg.outputs.tenant_id }}
+          subscription-id: ${{ steps.reg.outputs.subscription_id }}
+      - name: Gate 3 — deploy the package
+        run: |
+          az functionapp deployment source config-zip \
+            --resource-group "${{ steps.reg.outputs.resource_group }}" \
+            --name "${{ steps.reg.outputs.function_app }}" \
+            --src package.zip --only-show-errors
+      - name: Gate 3 — the front door is closed to anonymous callers
+        run: |
+          URL="https://${{ steps.reg.outputs.hostname }}/api/healthz"
+          for i in 1 2 3 4 5 6; do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' -A playground-deploy "$URL")
+            echo "attempt $i: $URL -> $CODE"
+            case "$CODE" in 302|401) echo "auth is in front of the app (anonymous -> $CODE)"; exit 0;; esac
+            sleep 10
+          done
+          echo "::error::expected 302 or 401 from an anonymous request, got $CODE. Either auth is off or the app is not serving."; exit 1
+      - name: Record who deployed
+        run: |
+          { echo "## Deployed"; echo; echo "- app: ${{ needs.build.outputs.app }}"; echo "- by: @${{ github.actor }}"; echo "- commit: ${{ github.sha }}"; echo "- url: https://${{ steps.reg.outputs.hostname }}"; } >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,10 @@
+# Copy to local.auto.tfvars and replace every <REPLACE_*> token. Auto-loaded by Terraform;
+# the real file is gitignored. See docs/environments/README.md.
+subscription_id = "<REPLACE_WITH_SUBSCRIPTION_GUID>"   # az account show --query id -o tsv
+tenant_id       = "<REPLACE_WITH_TENANT_GUID>"         # az account show --query tenantId -o tsv
+
+# Per admitted app (module inputs that identify people or repos). One block per app-<name>.tf.
+hello_citizen_owner_email     = "<REPLACE_WITH_OWNER_EMAIL>"
+hello_citizen_owner_object_id = "<REPLACE_WITH_OWNER_OBJECT_ID>"   # az ad user show --id <email> --query id -o tsv
+hello_citizen_github_repo_id  = "<REPLACE_WITH_REPO_NUMERIC_ID>"   # gh api repos/<org>/hello-citizen --jq .id
+hello_citizen_github_org_id   = "<REPLACE_WITH_ORG_NUMERIC_ID>"    # gh api orgs/<org> --jq .id

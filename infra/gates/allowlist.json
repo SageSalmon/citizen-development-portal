@@ -1,0 +1,18 @@
+{
+  "_comment": "Direct dependencies pre-approved for playground apps. Anything else is a warning a reviewer must acknowledge (02-hosting-contract.md, Dependencies). Keep this list short on purpose.",
+  "packages": [
+    "@azure/functions",
+    "@azure/identity",
+    "@types/node",
+    "@types/react",
+    "@types/react-dom",
+    "@vitejs/plugin-react",
+    "drizzle-kit",
+    "drizzle-orm",
+    "react",
+    "react-dom",
+    "typescript",
+    "vite",
+    "zod"
+  ]
+}

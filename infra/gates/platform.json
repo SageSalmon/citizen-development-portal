@@ -1,0 +1,10 @@
+{
+  "org": "SageSalmon",
+  "platformRepo": "citizen-development-portal",
+  "reusableWorkflow": ".github/workflows/build-and-deploy.yml",
+  "minReleaseAgeDays": 7,
+  "dependencyBudget": { "warn": 15, "block": 25 },
+  "nodeVersions": ["22", "24"],
+  "classifications": ["public", "internal", "confidential"],
+  "rejectedClassifications": ["regulated"]
+}
