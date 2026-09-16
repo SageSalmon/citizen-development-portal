@@ -520,8 +520,9 @@ Microsoft's guidance that it be assigned to nothing else), **deploy** (what the 
 workflow becomes via GitHub OIDC; Storage Blob Data Contributor on the app's storage and
 Website Contributor on the app, nothing else).
 
-**Open.** The exact OIDC subject GitHub presents. ref-arch-agent found subjects
-ID-qualified (`owner@id/repo@id`); the module trusts both the name form and the ID form
-until the first deploy shows which one arrives, then the other is removed.
+**Partly settled 2026-09-16.** GitHub's subject template API confirms the `repo` part is
+ID-qualified (`use_immutable_subject: true`, prefix `repo:<org>@<id>/<repo>@<id>`). Whether
+`job_workflow_ref` is also ID-qualified is still unknown; the module trusts three forms
+until the first deploy's token shows which arrives, then the others are removed.
 
 **Affects.** `infra/terraform/modules/app`; [07](07-deploy-credential-flow.md).

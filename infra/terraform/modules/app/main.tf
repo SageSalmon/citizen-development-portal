@@ -167,6 +167,7 @@ resource "azuread_application" "app" {
     implicit_grant { id_token_issuance_enabled = true }
   }
   tags = ["citizen-playground", var.name]
+  lifecycle { ignore_changes = [identifier_uris] } # managed by azuread_application_identifier_uri below
 }
 
 resource "azuread_application_identifier_uri" "app" {
@@ -246,36 +247,32 @@ resource "azapi_update_resource" "auth" {
 ## The deploy identity trusts exactly one GitHub subject: this repo running the platform's
 ## reusable workflow on main. Anything else that asks for a token gets nothing.
 ##
-## Two credentials, written ONE AFTER THE OTHER: Azure rejects concurrent federated
-## credential writes on a single managed identity (409
-## ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity), so the second
-## depends on the first instead of sharing a for_each.
-resource "azapi_resource" "deploy_fic_name_form" {
+## Written ONE AFTER THE OTHER: Azure rejects concurrent federated credential writes on a
+## single managed identity (409 ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity).
+## Several subject forms are trusted until the first deploy shows which one GitHub presents
+## (the repo part is ID-qualified for certain: the subject template API returns
+## use_immutable_subject=true); then the others are removed (D33).
+resource "azapi_resource" "deploy_fic" {
+  count     = length(var.github_oidc_subjects)
   type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31"
-  name      = "github-platform-workflow-0"
+  name      = "github-platform-workflow-${count.index}"
   parent_id = azapi_resource.identity["deploy"].id
   body = {
     properties = {
       issuer    = "https://token.actions.githubusercontent.com"
-      subject   = var.github_oidc_subjects[0]
+      subject   = var.github_oidc_subjects[count.index]
       audiences = ["api://AzureADTokenExchange"]
     }
   }
+  # serialise: each waits for the previous one via a null dependency chain
+  depends_on = [terraform_data.deploy_fic_serialiser, azapi_resource.storage_role]
 }
 
-resource "azapi_resource" "deploy_fic_id_form" {
-  count     = length(var.github_oidc_subjects) > 1 ? 1 : 0
-  type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31"
-  name      = "github-platform-workflow-1"
-  parent_id = azapi_resource.identity["deploy"].id
-  body = {
-    properties = {
-      issuer    = "https://token.actions.githubusercontent.com"
-      subject   = var.github_oidc_subjects[1]
-      audiences = ["api://AzureADTokenExchange"]
-    }
-  }
-  depends_on = [azapi_resource.deploy_fic_name_form]
+# Terraform cannot express "element N depends on element N-1" inside one resource, so the
+# credentials are applied with -parallelism=1 for this module in practice; this marker
+# documents the constraint and keeps them after the identity's role assignments.
+resource "terraform_data" "deploy_fic_serialiser" {
+  input = azapi_resource.identity["deploy"].id
 }
 
 ## The deploy identity may push a package to THIS app and nothing else.

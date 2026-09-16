@@ -49,10 +49,20 @@ a fact plus the consequence of not knowing it. Environment specifics are in
 - **The reusable workflow checks out this repo from the app repo's run** using the app
   repo's default token. That only works if this repo is public (or the org allows it and a
   token is supplied). Decided: public (D3).
-- **OIDC subjects may be ID-qualified** (`owner@id/repo@id`), per ref-arch-agent's
-  AADSTS700213 experience. The module trusts both forms until the first token shows which
-  arrives (D33). The subject template must include `job_workflow_ref`, set per repo by the
-  scaffold script; an org-wide template needs `admin:org`, which the token lacks.
+- **OIDC subjects ARE ID-qualified.** Setting the per-repo subject template returned
+  `"use_immutable_subject": true` and `"sub_claim_prefix": "repo:<org>@<orgId>/<repo>@<repoId>"`.
+  So the `repo` part of the subject carries numeric ids, as ref-arch-agent found. Whether the
+  `job_workflow_ref` part is also ID-qualified is not shown by that API; the module trusts
+  three forms until the first token arrives, then keeps one (D33). The template must include
+  `job_workflow_ref`; the scaffold sets it per repo. An org-wide template needs `admin:org`.
+- **Federated credentials on one identity are serialised**, and Terraform's `count` cannot
+  chain element N on N-1, so the module documents `-parallelism=1` for applies that add
+  more than one credential to the same identity. Two ran in parallel once and one failed
+  with 409; the retry succeeded.
+- **`azuread_application` and `azuread_application_identifier_uri` fight** unless the
+  application ignores `identifier_uris`: the second apply "modified" the application and
+  dropped the URI, and the third plan wanted to recreate it. `lifecycle { ignore_changes }`
+  on the application settles it.
 
 ## Template and gates
 

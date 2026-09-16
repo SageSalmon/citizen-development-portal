@@ -22,8 +22,12 @@ module "app_hello_citizen" {
   # workflow matches (07, detail 1). GitHub ID-qualifies subjects (owner@id/repo@id, as
   # ref-arch-agent found); both forms are trusted until the first deploy shows which is presented.
   github_oidc_subjects = [
+    # 0: plain names (pre-immutable-subject form)
     "repo:${var.github_org}/hello-citizen:job_workflow_ref:${var.github_org}/${var.platform_repo}/${var.platform_workflow_path}@refs/heads/main",
+    # 1: repo AND workflow repo ID-qualified
     "repo:${var.github_org}@${var.hello_citizen_github_org_id}/hello-citizen@${var.hello_citizen_github_repo_id}:job_workflow_ref:${var.github_org}@${var.hello_citizen_github_org_id}/${var.platform_repo}@${var.platform_repo_id}/${var.platform_workflow_path}@refs/heads/main",
+    # 2: repo ID-qualified (confirmed by the subject template API), workflow ref plain
+    "repo:${var.github_org}@${var.hello_citizen_github_org_id}/hello-citizen@${var.hello_citizen_github_repo_id}:job_workflow_ref:${var.github_org}/${var.platform_repo}/${var.platform_workflow_path}@refs/heads/main",
   ]
 
   location                         = var.location
