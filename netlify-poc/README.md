@@ -101,6 +101,12 @@ person who created the secret left. That is the finding.
 
 ## 5. GitHub and the pipeline
 
+**Note, 2026-09-16:** this folder now lives inside the platform repo, so its
+`.github/workflows/deploy.yml` is inert (GitHub runs workflows only from a repo's root). To
+demo the two-job pipeline, either give the POC its own repo again (`git subtree split` or a
+copy) or add a root-level workflow in the platform repo scoped with `paths: [netlify-poc/**]`.
+Direct deploys from a laptop (step 2) work regardless.
+
 ```bash
 gh repo create <org-or-user>/netlify-poc --private --source=. --push
 gh secret set NETLIFY_SITE_ID --body "$(jq -r .siteId .netlify/state.json)"   # written by `netlify link`
