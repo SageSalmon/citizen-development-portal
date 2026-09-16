@@ -1,4 +1,4 @@
-# 13 — Demo runbook: new app, deploy, sign in
+# 13 — Demo runbook (custom playground): new app, deploy, sign in
 
 The steps to show the playground working end to end with the two skills, as built on
 2026-09-16. Every step here has run at least once, except where marked **first time**.
