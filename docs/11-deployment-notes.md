@@ -83,10 +83,28 @@ a fact plus the consequence of not knowing it. Environment specifics are in
   and no test framework. The Functions host still loads compiled JavaScript from
   `dist/server`, so `tsc` runs at build with `rewriteRelativeImportExtensions`.
 
+## The first deploys, 2026-09-16
+
+- **Run 1** failed at `npm test`: Node 24 does not accept a directory for `--test` (above).
+  Gate 2 had already passed on the real runner, including the online release-age and
+  audit rules.
+- **Run 2** succeeded end to end: build, gates, package, OIDC sign-in as the deploy identity
+  on the first attempt (three subject forms trusted), `config-zip` reported
+  "Deployment was successful", and the anonymous probe got 401. The Functions host indexed
+  `healthz`, `me`, and `static` with the declared routes; the catch-all did not shadow the
+  API routes.
+- **Run 3** printed the OIDC subject: repo ID-qualified, workflow reference plain. The
+  module now trusts only that form.
+- **Easy Auth redirect needs a browser User-Agent.** With `Accept: text/html` alone, curl
+  still got 401; with a Mozilla User-Agent as well, it got the 302 to
+  `login.microsoftonline.com` with the app's client id. `/.auth/login/aad` redirects
+  regardless. So the deploy probe's "302 or 401" is right, and a monitoring check that wants
+  the redirect must send browser headers.
+- **`az functionapp deployment source config-zip` works for Flex Consumption.** No blob
+  upload or trigger sync was needed.
+
 ## Not yet learned
 
-- Whether `az functionapp deployment source config-zip` is the right upload for Flex, or
-  whether a blob upload plus a sync-triggers call is needed.
-- Whether the catch-all `{*path}` route yields to `api/healthz` and `api/me` under the
-  Functions host as it does under the local server.
-- What the first real sign-in looks like with the secretless configuration.
+- What the first real sign-in looks like with the secretless configuration: whether a
+  member of the access group reaches `/api/me` and whether `user.signin` lands in
+  Application Insights.

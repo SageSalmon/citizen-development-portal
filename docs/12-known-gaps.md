@@ -4,16 +4,18 @@ Where the work as built could mislead someone about what has been proven. Each g
 why it matters, what exists today, what closing it takes. Written 2026-09-16, before the
 first end-to-end deploy.
 
-## Nothing has deployed through the pipeline yet
+## The pipeline has deployed once; sign-in has not been exercised
 
-**What.** The reusable workflow, the Terraform, and the template are built and tested
-locally. No push has run job A and job B against a real Function App.
-**Why it matters.** Every ✓ in [05](05-platform-gates.md) is "code exists and its tests
-pass", not "it bit a real push".
-**Today.** A saved Terraform plan for 27 resources; a scaffolded `hello-citizen` with no
-remote.
-**Closing it.** Operator applies the plan, publishes the registry file, creates the repos,
-pushes, and reads the first run. Then update this page.
+**What.** On 2026-09-16 `hello-citizen` went from push to a running Function App through
+the reusable workflow: gates, tests, package, OIDC deploy, anonymous probe refused. Nobody
+has yet signed in to it.
+**Why it matters.** The ✓ marks in [05](05-platform-gates.md) for Gates 2 and 3 are now
+"bit a real push". The secretless Easy Auth login (D33) and the identity headers reaching
+`/api/me` are still unproven.
+**Today.** Easy Auth redirects browsers to Entra with the right client id; `/.auth/me` is
+401 anonymously; the access group has one member.
+**Closing it.** A member of the group opens the app, `/api/me` shows them, and
+`user.signin` appears in Application Insights. Record it in [11](11-deployment-notes.md).
 
 ## The deploy health gate proves only that the door is locked
 

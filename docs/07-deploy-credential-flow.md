@@ -64,10 +64,11 @@ Consequences, all deliberate:
   app on its next deploy.
 - A deploy identity trusts exactly one app repo, so a compromised app repo cannot
   deploy a different app.
-- **Subject format, open (D33).** ref-arch-agent found that GitHub presents ID-qualified
-  subjects (`repo:owner@ownerId/repo@repoId:...`), which the classic documentation does not
-  show. The module trusts both the name form and the ID form until the first deploy's
-  token shows which one arrives; then the other is removed.
+- **Subject format, confirmed 2026-09-16 (D33).** GitHub presents
+  `repo:<org>@<orgId>/<repo>@<repoId>:job_workflow_ref:<org>/<platform-repo>/<path>@refs/heads/main`.
+  The repo part carries immutable numeric ids, so renaming the app repo does not break the
+  trust and a differently named repo cannot impersonate it; the workflow reference is
+  plain. The deploy job prints the `sub` claim on every run so this is visible, never guessed.
 
 ## The five details that make or break it
 

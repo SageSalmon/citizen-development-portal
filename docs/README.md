@@ -22,11 +22,11 @@ citizen-development-portal/
   .github/workflows/         # ✓ build-and-deploy.yml, the reusable workflow
 ```
 
-**Status 2026-09-16: thin slice built, first deploy pending.** The template, gate engine,
-scaffold, reusable workflow, and Terraform exist and pass their tests locally. A Terraform
-plan for the environment and the first app (`hello-citizen`) is saved; applying it, pushing
-the repos, and reading the first run are the next steps. Nothing has yet been proven
-against a real push. [12-known-gaps.md](12-known-gaps.md) says exactly what is aspirational.
+**Status 2026-09-16: thin slice built and deployed once.** The environment and the first
+app (`hello-citizen`) exist in Azure; a push to its repo ran the reusable workflow end to
+end (gates, tests, package, OIDC deploy, anonymous probe refused) on the second attempt.
+Sign-in by a real user is the next thing to prove. [12-known-gaps.md](12-known-gaps.md)
+says exactly what is aspirational.
 
 Each document marks what is **decided**, what is **built** (✓ / ◐ partial / ○ planned),
 what is an **assumption** (a sensible default taken from ref-arch-agent, the one earlier

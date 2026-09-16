@@ -520,9 +520,9 @@ Microsoft's guidance that it be assigned to nothing else), **deploy** (what the 
 workflow becomes via GitHub OIDC; Storage Blob Data Contributor on the app's storage and
 Website Contributor on the app, nothing else).
 
-**Partly settled 2026-09-16.** GitHub's subject template API confirms the `repo` part is
-ID-qualified (`use_immutable_subject: true`, prefix `repo:<org>@<id>/<repo>@<id>`). Whether
-`job_workflow_ref` is also ID-qualified is still unknown; the module trusts three forms
-until the first deploy's token shows which arrives, then the others are removed.
+**Settled 2026-09-16 from the first deploy's token.** GitHub presents
+`repo:<org>@<orgId>/<repo>@<repoId>:job_workflow_ref:<org>/<platform-repo>/<path>@refs/heads/main`:
+the repo part ID-qualified (immutable subject), the workflow reference plain. The deploy
+job now prints the `sub` claim on every run, and the module trusts only that one form.
 
 **Affects.** `infra/terraform/modules/app`; [07](07-deploy-credential-flow.md).

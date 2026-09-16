@@ -18,15 +18,10 @@ module "app_hello_citizen" {
   access_group_name = "app-hello-citizen-users"
   node_version      = "24"
 
-  # The repo's OIDC subject template includes job_workflow_ref, so only the platform's
-  # workflow matches (07, detail 1). GitHub ID-qualifies subjects (owner@id/repo@id, as
-  # ref-arch-agent found); both forms are trusted until the first deploy shows which is presented.
+  # The exact subject GitHub presents, read from the token on the first deploy (2026-09-16):
+  # the repo part is ID-qualified (immutable subject), the job_workflow_ref part is plain.
+  # Only this one form is trusted (07, detail 1; D33).
   github_oidc_subjects = [
-    # 0: plain names (pre-immutable-subject form)
-    "repo:${var.github_org}/hello-citizen:job_workflow_ref:${var.github_org}/${var.platform_repo}/${var.platform_workflow_path}@refs/heads/main",
-    # 1: repo AND workflow repo ID-qualified
-    "repo:${var.github_org}@${var.hello_citizen_github_org_id}/hello-citizen@${var.hello_citizen_github_repo_id}:job_workflow_ref:${var.github_org}@${var.hello_citizen_github_org_id}/${var.platform_repo}@${var.platform_repo_id}/${var.platform_workflow_path}@refs/heads/main",
-    # 2: repo ID-qualified (confirmed by the subject template API), workflow ref plain
     "repo:${var.github_org}@${var.hello_citizen_github_org_id}/hello-citizen@${var.hello_citizen_github_repo_id}:job_workflow_ref:${var.github_org}/${var.platform_repo}/${var.platform_workflow_path}@refs/heads/main",
   ]
 

@@ -249,9 +249,9 @@ resource "azapi_update_resource" "auth" {
 ##
 ## Written ONE AFTER THE OTHER: Azure rejects concurrent federated credential writes on a
 ## single managed identity (409 ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity).
-## Several subject forms are trusted until the first deploy shows which one GitHub presents
-## (the repo part is ID-qualified for certain: the subject template API returns
-## use_immutable_subject=true); then the others are removed (D33).
+## GitHub presents `repo:<org>@<orgId>/<repo>@<repoId>:job_workflow_ref:<org>/<platform-repo>/<path>@refs/heads/main`
+## (confirmed from the token on 2026-09-16, D33). The list form remains so a second subject
+## can be trusted briefly during a rename or a workflow move.
 resource "azapi_resource" "deploy_fic" {
   count     = length(var.github_oidc_subjects)
   type      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2023-01-31"
