@@ -14,8 +14,12 @@ SSO team-login default closed the whole site, including its public login page, t
 before anything was configured. Netlify Identity was then removed from the POC: a second
 login was redundant and no Identity instance exists on the site. **Second finding:** team
 login authenticates the visitor but forwards nothing about them to the functions, so the app
-cannot say who is using it, log a sign-in, or act on the user's behalf. The same door on the
-playground hands the code the user's object id, UPN, and display name.
+cannot say who is using it, log a sign-in, or act on the user's behalf. The only headers
+Netlify adds name the team that owns the site (`x-nf-account-id`, `x-nf-account-tier`). The
+same door on the playground hands the code the user's object id, UPN, and display name.
+**Third finding:** Netlify DB answered on first use with no init step and no visible
+connection string; the SDK resolves the credential itself, and the same connection does
+DDL and DML.
 
 ## Netlify plan tiers, 2026-09-10
 
@@ -125,8 +129,10 @@ only to major cloud providers who regularly undergo extensive security audits."
 
 - **Functions.** The first iteration "exposed the API surface of the underlying compute
   provider, AWS Lambda." The current Functions API is Netlify's own; the Lambda handler
-  mode is deprecated with deploys refused from 2027-07-01. Whether Lambda still underlies
-  the modern runtime is not stated.
+  mode is deprecated with deploys refused from 2027-07-01. **Observed 2026-09-17:** a
+  function error on the deployed POC printed a stack trace through `/var/task/` and
+  `/var/runtime/index.mjs`, the AWS Lambda runtime layout. The modern runtime still executes
+  on Lambda, whatever the docs say.
 - **Edge Functions.** "A secure runtime based on Deno" at Netlify's edge, not AWS.
 - **Netlify DB.** Neon Postgres, operated and resold by Netlify, on Neon's footprint.
 - **Compliance listed:** SOC 2 Type 2, ISO 27001 and 27018, PCI DSS v4.0, HIPAA, GDPR

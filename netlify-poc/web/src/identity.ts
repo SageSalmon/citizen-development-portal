@@ -5,7 +5,7 @@
 // (2026-09-17), so the earlier Identity-widget login was removed.
 
 /** Who does the app think you are? Nothing arrives, so the honest answer is: unknown. */
-export type Whoami = { authenticatedBy: string; knownToApp: boolean; identityHeadersSeen: string[] };
+export type Whoami = { authenticatedBy: string; knownToApp: boolean; userIdentityHeaders: string[]; platformMetadataHeaders: string[]; note: string };
 
 export async function apiGet<T>(path: string): Promise<T> {
   const res = await fetch(path, { credentials: "same-origin" });

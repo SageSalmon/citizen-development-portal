@@ -13,7 +13,7 @@ export default async (req: Request) => {
 
   const db = getDatabase();
   await db.sql`CREATE TABLE IF NOT EXISTS visits (id serial PRIMARY KEY, who text NOT NULL, at timestamptz DEFAULT now())`;
-  await db.sql`INSERT INTO visits (who) VALUES (team-member)`;
+  await db.sql`INSERT INTO visits (who) VALUES (${"team-member (identity unknown)"})`;
   const [{ count }] = (await db.sql`SELECT count(*)::int AS count FROM visits`) as { count: number }[];
   return json({ visits: count, branch: env("BRANCH", "unknown") });
 };

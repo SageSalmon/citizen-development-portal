@@ -11,13 +11,21 @@ import { log } from "./log.mts";
  * forward something, it shows up in `identityHeadersSeen` rather than being missed.
  */
 export function whoami(req: Request) {
-  const seen: string[] = [];
+  const userIdentity: string[] = [];   // anything that names the PERSON
+  const platformMetadata: string[] = []; // Netlify's own headers about the site/team, not the user
   for (const [k] of req.headers) {
-    if (/principal|identity|x-nf-.*(user|account|member)|authorization|x-forwarded-user|remote-user/i.test(k)) seen.push(k);
+    if (/^x-nf-/i.test(k)) { platformMetadata.push(k); continue; }
+    if (/principal|identity|authorization|x-forwarded-user|remote-user|x-user|x-email/i.test(k)) userIdentity.push(k);
   }
-  const knownToApp = seen.length > 0;
-  log("info", knownToApp ? "user.signin" : "user.unknown", { path: new URL(req.url).pathname, identityHeadersSeen: seen });
-  return { authenticatedBy: "Netlify SSO team login (organisation IdP), before any code ran", knownToApp, identityHeadersSeen: seen };
+  const knownToApp = userIdentity.length > 0;
+  log("info", knownToApp ? "user.signin" : "user.unknown", { path: new URL(req.url).pathname, userIdentity, platformMetadata });
+  return {
+    authenticatedBy: "Netlify SSO team login (organisation IdP), before any code ran",
+    knownToApp,
+    userIdentityHeaders: userIdentity,
+    platformMetadataHeaders: platformMetadata,
+    note: knownToApp ? "the app can identify the user" : "x-nf-account-* name the Netlify team that owns the site, not the person; nothing identifies the user",
+  };
 }
 
 export function json(body: unknown, status = 200): Response {
