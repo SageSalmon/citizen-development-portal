@@ -7,8 +7,8 @@ description: Build a new citizen-style app hosted on Netlify for comparison with
 
 The Netlify counterpart of `citizen-app-new-custom`. Same inputs, same developer-facing
 tone. What is different is what is **absent**: no GitHub repo, no admission, no gate
-engine, no OIDC, no identity reaching the code. Say those absences out loud as you go; they
-are the comparison.
+engine, no OIDC, no identity reaching the code. Name each absence when it comes up; they are
+the comparison.
 
 ## 1. Prerequisites (stop if any is missing)
 
@@ -50,9 +50,9 @@ Edit `web/src/App.tsx` in the new app: add the content, forms, or panels they de
 Keep the two comparison panels (who the app thinks you are; heartbeat) unless asked to
 remove them. New API routes are new `netlify/functions/<name>.mts` files with a
 `config.path`. If a route needs a backend credential, it can only come from
-`npx netlify env:set <NAME> <value> --secret`; say plainly that the credential now lives in
-Netlify's environment with whatever reach the author gave it, and that this is the
-comparison's central point. Re-run `npm run check && npm test && npm run build`, then deploy.
+`npx netlify env:set <NAME> <value> --secret`. State that the credential now lives in
+Netlify's environment with whatever reach the author gave it; that is the comparison's
+central point. Re-run `npm run check && npm test && npm run build`, then deploy.
 
 ## 5. Report, in the developer's words
 

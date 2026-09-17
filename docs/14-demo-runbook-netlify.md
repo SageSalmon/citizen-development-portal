@@ -1,8 +1,8 @@
 # 14 — Demo runbook (Netlify): new app, deploy, sign in
 
 The Netlify half of the demo, to run beside [13-demo-runbook-custom.md](13-demo-runbook-custom.md).
-Same shape, same two skills by name, so the audience sees what is missing rather than
-being told. Every step here has run at least once except where marked **first time**.
+Same shape, same two skills by name, so what is missing on Netlify shows rather than being
+told. Every step here has run at least once except where marked **first time**.
 Budget 10 minutes. Team and site values are in `environments/dev.md` (gitignored).
 
 ## Roles
@@ -13,9 +13,9 @@ Budget 10 minutes. Team and site values are in `environments/dev.md` (gitignored
 | Platform operator | nobody | there is no admission step |
 | User | the presenter, in a browser | signs in through the Netlify team's SSO |
 
-Say the middle row aloud. It is the demo.
+The middle row is the demo.
 
-## 0. Before the audience arrives
+## 0. Before starting
 
 ```bash
 npx netlify api getCurrentUser --data '{}' | head -c 120       # signed in
@@ -35,7 +35,7 @@ In Claude Code, from the platform repo, say:
 > New netlify app called demo-notes-netlify for the finance area, in team <slug>. One line:
 > "Shared notes for the finance team." Owner is me.
 
-What to point at while it runs:
+What the skill does:
 
 1. Prerequisites: Node, Netlify signed in, team membership. No `gh`, no `git`.
 2. Scaffold: template copied, `npm install --ignore-scripts`, `check`, `test`, `build`.
@@ -43,9 +43,9 @@ What to point at while it runs:
    `netlify deploy --prod`. The same three commands deployed `citizen-poc-netlify` by hand.
 4. Report: the live URL, "who can open it is whatever the team enforces", "there is no repo".
 
-Elapsed: about two minutes from sentence to live URL. Compare with the custom runbook, where
-the same sentence ends at "not admitted" and a Terraform apply stands between the developer
-and a running app. Both facts are true; say which one you want.
+Elapsed: about two minutes from sentence to live URL. In the custom runbook the same sentence
+ends at "not admitted" and a Terraform apply stands between the developer and a running app.
+Both are true; the question is which one is wanted.
 
 ## 2. Customise
 
@@ -53,15 +53,15 @@ Ask for something visible:
 
 > Add a panel listing three sample notes with a title and a date.
 
-The skill edits `web/src/App.tsx`, re-runs check, test, build. If the audience asks for
-something that needs a backend key, let the skill say where the key would go. That sentence
-is the point of the comparison.
+The skill edits `web/src/App.tsx`, re-runs check, test, build. A request that needs a
+backend key gets an answer about where the key would live: a Netlify environment variable
+the author sets. That is the point of the comparison.
 
 ## 3. Deploy (skill: `citizen-app-deploy-netlify`)
 
 > Deploy.
 
-Check, test, build, `netlify deploy --prod`, one to two minutes. What to narrate:
+Check, test, build, `netlify deploy --prod`, one to two minutes. What is happening:
 
 - The checks are advisory. Nothing on Netlify's side runs them.
 - No pipeline, no gates, no OIDC, no artifact. The laptop is the deploy path, and the
@@ -77,16 +77,16 @@ cookies and JavaScript):
    prompts: one for `app.netlify.com`, one for the site's edge-access handshake. Sign in.
 2. The page loads. The first panel says the app does **not** know who you are, and lists the
    only headers Netlify added: the team that owns the site.
-3. In a terminal, show the closed door:
+3. In a terminal, the closed door:
 
 ```bash
 curl -s -o /dev/null -w '%{http_code}\n' https://demo-notes-netlify.netlify.app/api/healthz    # 401
 ```
 
-4. Anyone not on the Netlify team, including any employee, is refused at the edge. Say what
-   that means for the audience of a citizen app: viewers must be Netlify team members.
+4. Anyone not on the Netlify team, including any employee, is refused at the edge. For a
+   citizen app that means viewers must be Netlify team members.
 
-## 5. What to say is not real
+## 5. Not real
 
 - No source control. Deploys come from a laptop; the running code has no provenance.
 - No admission, no owner, no access group. Who can view is the Netlify team, all or nothing.

@@ -13,8 +13,8 @@ Budget about 25 minutes plus one Terraform apply by the operator. Environment va
 | Platform operator | the presenter, in a terminal | admits the app: one Terraform file, one apply, one commit |
 | User | the presenter, in a browser | signs in as a member of the app's access group |
 
-In the dev environment all three are the same person. Say so out loud; the design keeps
-them separate and the demo collapses them for convenience.
+In the dev environment all three are the same person. The design keeps them separate; the
+demo collapses them for convenience.
 
 ## 0. PREP
 
@@ -34,8 +34,8 @@ cd infra/terraform && terraform plan -var-file=envs/dev.tfvars -input=false | ta
 Pick the demo app name now. It must be lowercase letters, digits, hyphens, 2 to 32
 characters, and not already a repo in the org. This page uses `demo-notes`.
 
-Optional but worth it: open `https://<hello-citizen hostname>/` in a browser and sign in
-once, so the audience can see a finished app before the new one exists.
+Optional: open `https://<hello-citizen hostname>/` in a browser and sign in once, so a
+finished app is visible before the new one exists.
 
 ## 1. New app (skill: `citizen-app-new-custom`)
 
@@ -44,7 +44,7 @@ In Claude Code, from the platform repo, say:
 > New app called demo-notes for the finance area. One line: "Shared notes for the finance
 > team." Owner is me.
 
-What the skill does, and what to point at while it runs:
+What the skill does:
 
 1. Checks Node, `git`, and that `gh` is signed in to a member of the org. If the token
    lacks the `workflow` scope it stops here and tells you the `gh auth refresh` command.
@@ -67,19 +67,19 @@ npm run dev                                    # API on :7071, web on :5173
 ```
 
 Open `http://localhost:5173`. The page greets the fake local user from `.env.example`
-(copy it to `.env` first if you want a name to appear). Say: locally there is no Entra in
-front; on the platform there is, and the app cannot tell the difference because it only
-reads identity headers.
+(copy it to `.env` first if you want a name to appear). Locally there is no Entra in front;
+on the platform there is, and the app cannot tell the difference because it only reads
+identity headers.
 
 Open `https://github.com/SageSalmon/demo-notes/actions`. The push already triggered the
 platform workflow. Job A (build and gates) should be green. Job B is **skipped** on a
 non-owner push or fails with **"demo-notes is not admitted"** on an owner push. That
-message is the demo's pivot: the platform has never heard of this app.
+message is the pivot: the platform has never heard of this app.
 
 ## 2. Admit the app (operator, manual today)
 
-This is Gate 1 as it exists: a person, one Terraform file, one apply. Say that the design
-generates this from `app.yaml` in a pull request and that it is not built yet.
+This is Gate 1 as it exists: a person, one Terraform file, one apply. The design generates
+this from `app.yaml` in a pull request; that is not built yet.
 
 ```bash
 cd ~/code/citizen-development-portal/infra/terraform
@@ -106,9 +106,9 @@ cd ../.. && node scripts/write-registry.mjs        # wrote infra/registry/demo-n
 git add -A && git commit -m "Admit demo-notes" && git push
 ```
 
-While it applies, show what it is creating: one Function App and plan, one storage
-account with no keys, three identities, one app registration with no secret, one Entra
-group with the owner in it, and the auth configuration that admits only that group.
+While it applies, it is creating: one Function App and plan, one storage account with no
+keys, three identities, one app registration with no secret, one Entra group with the owner
+in it, and the auth configuration that admits only that group.
 
 ## 3. Deploy (skill: `citizen-app-deploy-custom`)
 
@@ -124,7 +124,7 @@ force a run for the demo, make a visible change first:
 sed -i '' 's/Shared notes for the finance team./Shared notes for the finance team. Deployed live in the demo./' web/src/App.tsx
 ```
 
-Then "deploy". Follow along in the Actions tab or with `gh run watch`. What to narrate:
+Then "deploy". Follow along in the Actions tab or with `gh run watch`. What is happening:
 
 - **Job A** has no cloud credentials. It runs the platform's copy of the gates, including
   the online rules: registry publish dates for the seven-day minimum, and `npm audit`.
@@ -143,15 +143,15 @@ Open the URL from the run summary in a **private browser window**:
 1. Entra sign-in page appears. Sign in as the owner, who is in `app-demo-notes-users`.
 2. The app loads and greets you by name. Open `/api/me` to show the identity the platform
    handed the code: object id, UPN, display name, nothing else.
-3. In a terminal, show that a stranger gets nothing:
+3. In a terminal, a stranger gets nothing:
 
 ```bash
 curl -s -o /dev/null -w '%{http_code}\n' https://<demo-notes hostname>/api/healthz    # 401
 ```
 
 4. If a second account exists that is **not** in the group, sign in with it in another
-   private window. Entra refuses with an assignment error before the app is reached. This
-   is the "no public app" rule enforced by Entra, not by code.
+   private window. Entra refuses with an assignment error before the app is reached: the
+   "no public app" rule, enforced by Entra, not by code.
 5. **Not yet observed:** the `user.signin` event in Application Insights. Run this in
    the `appi-citizen-dev` Logs blade a few minutes after signing in and record the result in
    [11-deployment-notes.md](11-deployment-notes.md):
@@ -163,7 +163,7 @@ traces
 | order by timestamp desc
 ```
 
-## 5. What to say is not real yet
+## 5. Not real yet
 
 - Admission is a person editing Terraform, not a generated PR.
 - The scaffold's repo step runs for the first time in this demo (or was done by hand).

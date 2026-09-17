@@ -9,7 +9,7 @@ playground's `netlify-app` template for comparison with the custom playground.
 - **Functions:** `netlify/functions/*.mts`, default export `(req: Request) => Response`,
   `export const config = { path: "/api/..." }`. Log with `netlify/shared/log.mts`.
 - **Secrets:** only as Netlify environment variables (`npx netlify env:set X --secret`).
-  Never in the repo. Say so out loud when adding one; it is the point of the comparison.
+  Never in the repo. When adding one, state where it now lives; it is the point of the comparison.
 - **Dependencies:** exact versions, `ignore-scripts=true`. There is no gate enforcing this
   on Netlify; it is convention only.
 - **Deploy:** `npm run deploy` from a laptop, or the `citizen-app-deploy-netlify` skill.

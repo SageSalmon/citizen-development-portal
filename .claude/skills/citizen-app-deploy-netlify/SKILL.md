@@ -7,7 +7,6 @@ description: Deploy a Netlify-hosted citizen-style app from the laptop and expla
 
 The Netlify counterpart of `citizen-app-deploy-custom`, and deliberately shorter, because
 there is less between "works locally" and "live": no admission, no gates, no pipeline.
-Narrate that.
 
 ## Procedure
 
@@ -16,7 +15,7 @@ Narrate that.
    `npx netlify link` (interactive) or `citizen-app-new-netlify` to create the site.
 2. **Local checks:** `npm run check && npm test && npm run build`. If any fail, show the
    output and stop. **These are advisory.** Nothing on Netlify's side runs them; a developer
-   who skips this step deploys anyway. Say so.
+   who skips this step deploys anyway; report that.
 3. **Deploy:** `npm run deploy` (`netlify deploy --prod --dir=dist --functions=netlify/functions`).
    Takes one to two minutes. Read the "Production URL" line.
 4. **Verify what can be verified:** `curl -s -o /dev/null -w '%{http_code}' https://<name>.netlify.app/api/healthz`.
@@ -29,7 +28,7 @@ Narrate that.
 ## What it never does
 
 - Change team-level protection (team login, password) on a site in someone else's team.
-- Bypass a failing check. There is no gate to bypass; the honest move is to stop and say so.
+- Bypass a failing check. There is no gate to bypass; stop and report the failure.
 - Set a credential without saying where it now lives.
 
 ## What is real and what is not (2026-09-17)
