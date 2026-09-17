@@ -55,7 +55,7 @@ a fact plus the consequence of not knowing it. Environment specifics are in
   `job_workflow_ref` part is also ID-qualified is not shown by that API; the module trusts
   three forms until the first token arrives, then keeps one (D33). The template must include
   `job_workflow_ref`; the scaffold sets it per repo. An org-wide template needs `admin:org`.
-- **Federated credentials on one identity are serialised**, and Terraform's `count` cannot
+- **Federated credentials on one identity are serialized**, and Terraform's `count` cannot
   chain element N on N-1, so the module documents `-parallelism=1` for applies that add
   more than one credential to the same identity. Two ran in parallel once and one failed
   with 409; the retry succeeded.

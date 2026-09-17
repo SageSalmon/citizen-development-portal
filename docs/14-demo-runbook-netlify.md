@@ -47,7 +47,7 @@ Elapsed: about two minutes from sentence to live URL. In the custom runbook the 
 ends at "not admitted" and a Terraform apply stands between the developer and a running app.
 Both are true; the question is which one is wanted.
 
-## 2. Customise
+## 2. Customize
 
 Ask for something visible:
 
@@ -73,7 +73,7 @@ Check, test, build, `netlify deploy --prod`, one to two minutes. What is happeni
 Open the URL in a **normal** browser window (not private; the edge-access handshake needs
 cookies and JavaScript):
 
-1. Netlify's team login redirects to the organisation's identity provider. Expect two
+1. Netlify's team login redirects to the organization's identity provider. Expect two
    prompts: one for `app.netlify.com`, one for the site's edge-access handshake. Sign in.
 2. The page loads. The first panel says the app does **not** know who you are, and lists the
    only headers Netlify added: the team that owns the site.
@@ -95,7 +95,7 @@ curl -s -o /dev/null -w '%{http_code}\n' https://demo-notes-netlify.netlify.app/
 - Credentials for any backend are environment variables an author set; nobody re-verifies them.
 - No Netlify Identity: redundant behind team login, and no instance exists on this team's sites.
 - The functions run on AWS Lambda (observed in a stack trace, 2026-09-17), outside the
-  organisation's Azure tenant.
+  organization's Azure tenant.
 
 The comparison page [10-netlify-comparison.md](10-netlify-comparison.md) has the evidence
 for each line.

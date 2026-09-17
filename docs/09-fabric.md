@@ -31,7 +31,7 @@ a second `data/` target; it is not a third top-level concern.
 
 ## What the platform provides
 
-| Concern | Platform behaviour |
+| Concern | Platform behavior |
 |---------|--------------------|
 | Workspace | One Fabric workspace per app that declares `fabric:`, on the shared platform capacity, named after the app. Created at admission by Terraform (D28). |
 | Publish | Every deploy publishes the item definitions in `data/fabric/items/` to the workspace, creating or updating each item. Items in the workspace that are not in the repo are left alone but flagged on the dashboard. |

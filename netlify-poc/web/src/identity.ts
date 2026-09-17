@@ -1,5 +1,5 @@
 // On the LT-POC Enterprise team the site is protected by Netlify's SSO team login: a
-// visitor must be a Netlify team member and signs in through the organisation's identity
+// visitor must be a Netlify team member and signs in through the organization's identity
 // provider before ANY request reaches this page or the functions. That handshake tells the
 // app nothing about who the user is. There is no Netlify Identity instance on this site
 // (2026-09-17), so the earlier Identity-widget login was removed.

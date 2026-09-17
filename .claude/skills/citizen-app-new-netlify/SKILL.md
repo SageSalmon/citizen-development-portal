@@ -1,6 +1,6 @@
 ---
 name: citizen-app-new-netlify
-description: Build a new citizen-style app hosted on Netlify for comparison with the custom playground — scaffold a TypeScript/React project with Netlify Functions from the netlify-app template, customise it to what the developer wants, create the site in a Netlify team, and deploy it from the laptop. Use when someone says "new netlify app", "netlify version", "scaffold on netlify", or wants to demo the Netlify side.
+description: Build a new citizen-style app hosted on Netlify for comparison with the custom playground — scaffold a TypeScript/React project with Netlify Functions from the netlify-app template, customize it to what the developer wants, create the site in a Netlify team, and deploy it from the laptop. Use when someone says "new netlify app", "netlify version", "scaffold on netlify", or wants to demo the Netlify side.
 ---
 
 # citizen-app-new-netlify — build on Netlify
@@ -15,7 +15,7 @@ the comparison.
 - Node 22+: `node --version`
 - Netlify CLI signed in: `npx netlify api getCurrentUser --data '{}' | head -c 200`. If not,
   the developer runs `npx netlify login` (opens a browser; on an Enterprise team this is the
-  organisation's SSO).
+  organization's SSO).
 - The team to deploy into: `npx netlify api listAccountsForUser | node -pe 'JSON.parse(require("fs").readFileSync(0)).map(a=>a.slug+" ("+a.type_name+", "+a.members_count+" members)").join("\n")'`.
   **Ask which team.** On a team that belongs to another group, get their say-so first; a
   site in their team draws on their usage allocation and appears in their site list.
@@ -42,9 +42,9 @@ node scripts/citizen-app-new-netlify.mjs --name <name> --owner <email> --area <a
 
 Copies `templates/netlify-app`, substitutes inputs, `npm install --ignore-scripts`, `check`,
 `test`, `build`, then creates the site in the team, sets `APP_NAME`, and deploys. Use
-`--no-deploy` to customise first and deploy afterwards with `citizen-app-deploy-netlify`.
+`--no-deploy` to customize first and deploy afterwards with `citizen-app-deploy-netlify`.
 
-## 4. Customise to what the developer asked for
+## 4. Customize to what the developer asked for
 
 Edit `web/src/App.tsx` in the new app: add the content, forms, or panels they described.
 Keep the two comparison panels (who the app thinks you are; heartbeat) unless asked to
@@ -57,7 +57,7 @@ central point. Re-run `npm run check && npm test && npm run build`, then deploy.
 ## 5. Report, in the developer's words
 
 - "Your app is live at https://<name>.netlify.app. Who can open it is whatever the
-  `<team>` team enforces; on this team that is the organisation's SSO login for team members."
+  `<team>` team enforces; on this team that is the organization's SSO login for team members."
 - "The app cannot tell who you are; the first panel shows why."
 - "There is no repo. It was deployed from this laptop. To deploy again, say 'deploy'."
 - The three commands: `npm run dev`, `npm run check`, `npm test`.

@@ -16,7 +16,7 @@ running, signed-in app. [12-known-gaps.md](12-known-gaps.md) lists what is aspir
 
 ## What the platform provides
 
-| Concern | Platform behaviour |
+| Concern | Platform behavior |
 |---------|--------------------|
 | Build | On every push, the platform's reusable workflow installs with `npm ci --ignore-scripts`, runs the gate rules, tests, builds `web/` with Vite and `server/` with `tsc`, and zips the result with production dependencies only. **Built.** |
 | Run | Uploads the zip to the app's Function App (Flex Consumption). The Functions host loads `dist/server/index.js`; instances scale from zero per request. **Built; first real deploy pending.** |
@@ -73,8 +73,8 @@ running, signed-in app. [12-known-gaps.md](12-known-gaps.md) lists what is aspir
    declared secret. Nothing else.
 10. **Carry an `app.yaml` at the repo root** — the metadata file, schema below. This is
    the one file the developer edits that the platform reads.
-11. **Initialise in under 30 seconds.** The Flex Consumption host times out app
-   initialisation at 30 seconds and the limit is not configurable. There is no
+11. **Initialize in under 30 seconds.** The Flex Consumption host times out app
+   initialization at 30 seconds and the limit is not configurable. There is no
    long-lived process to shut down.
 
 ## Heartbeat — how the platform checks an app
@@ -181,7 +181,7 @@ rule is checked by the scaffold's `check` and again by the platform build.
 | **Lockfile committed**, install runs in locked mode (`npm ci`). | The build installs exactly what the developer tested. No drift. |
 | **Exact versions** in `package.json`; no `^` or `~` ranges. | A range is a promise to install code nobody has reviewed. |
 | **Install scripts disabled** (`ignore-scripts=true` in `.npmrc`). | Post-install scripts are the primary execution vector in registry compromises. Anything that needs one is not allowed on the playground. |
-| **Minimum release age** for any new version (D8: 7 days recommended). | Compromised releases are usually pulled within days. Waiting is the cheapest defence there is. |
+| **Minimum release age** for any new version (D8: 7 days recommended). | Compromised releases are usually pulled within days. Waiting is the cheapest defense there is. |
 | **Dependency budget.** A template ships with a small direct-dependency list; `check` warns above 15 direct dependencies and fails above 25. | Size is the risk. The number is a forcing function for the conversation "do you really need this?" |
 | **Allow-list of known-good packages** maintained in this repo. Anything outside it is a `check` warning that a reviewer must acknowledge. | Most apps need the same twenty packages. Concentrating review there pays off. |
 | **Audit gate.** `npm audit` (or an OSV scan) with no high or critical findings at build. | The floor, not the ceiling. |
@@ -191,7 +191,7 @@ rule is checked by the scaffold's `check` and again by the platform build.
 
 Renovate or Dependabot is configured in every generated repo, grouped weekly, so
 pinned versions do not mean frozen versions. *(The template ships `renovate.json`;
-enabling Renovate on the organisation is not done.)*
+enabling Renovate on the organization is not done.)*
 
 **What the minimum release age did on day one.** The template's first pins were all the
 latest releases, under seven days old, and the platform's own check refused the template.

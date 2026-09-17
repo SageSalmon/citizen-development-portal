@@ -264,7 +264,7 @@ resource "azapi_resource" "deploy_fic" {
       audiences = ["api://AzureADTokenExchange"]
     }
   }
-  # serialise: each waits for the previous one via a null dependency chain
+  # serialize: each waits for the previous one via a null dependency chain
   depends_on = [terraform_data.deploy_fic_serialiser, azapi_resource.storage_role]
 }
 

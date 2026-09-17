@@ -3,7 +3,7 @@
 A proof of concept, built 2026-09-11, to test whether Netlify's **Free plan** can host a
 citizen-style app the way the playground design (this repo, `docs/`) describes, and to
 check the claims in `docs/10-netlify-comparison.md` against a running system instead of
-documentation. It is a comparison artefact, not part of the platform.
+documentation. It is a comparison artifact, not part of the platform.
 
 It is one small React app with four functions:
 

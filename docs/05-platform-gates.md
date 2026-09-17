@@ -258,7 +258,7 @@ policy/, dashboard/, fabric/   # ○
 Same conventions as ref-arch-agent: identifying values in gitignored local files,
 `<REPLACE_*>` tokens committed, everything tagged for cost, no secrets in variables.
 The workflow file lives at the repo root `.github/workflows/`, not under `infra/`, because
-GitHub only honours reusable workflows there.
+GitHub only honors reusable workflows there.
 
 ## What is not a gate
 

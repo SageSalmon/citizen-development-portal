@@ -108,10 +108,10 @@ keys need a vault. On Netlify each of those is a stored environment variable or 
 
 ## Observed in practice, 2026-09-14
 
-A read-only look at an internal organisation's Netlify Enterprise account (details in
+A read-only look at an internal organization's Netlify Enterprise account (details in
 `environments/dev.md`, gitignored):
 
-- Two teams in one Netlify Organization; organisation SAML strictly enforced; the user
+- Two teams in one Netlify Organization; organization SAML strictly enforced; the user
   managed by directory sync. The "Okta login" is the identity provider in front of Netlify
   itself.
 - Every site returned **401 to an anonymous request** and redirected to Netlify's
@@ -121,7 +121,7 @@ A read-only look at an internal organisation's Netlify Enterprise account (detai
 - All sites were **deployed by upload**, none linked to a Git repository, and the setting
   that blocks non-Git production deploys was off. The inspected content was static decks
   and diagrams; two sites had functions and one a Netlify DB.
-- Consequence for this comparison: that organisation solved the front door for a small
+- Consequence for this comparison: that organization solved the front door for a small
   known audience by making viewers team members, and did not use source control or gates
   at all. It does not answer the citizen-app question, whose audience is not a Netlify
   team and whose deploy path must not be a laptop.

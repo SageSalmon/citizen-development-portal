@@ -139,7 +139,7 @@ Container Apps environment with a firewall, which is real cost and operational w
 and citizen apps legitimately call external APIs.
 
 **Recommended.** Defer to v2. In v1, log all egress destinations (Log Analytics) so the
-allow-list can be built from observed behaviour rather than guessed. Record this as a
+allow-list can be built from observed behavior rather than guessed. Record this as a
 known gap in the rule-to-gate map.
 
 **Affects.** `infra/terraform/environment`; cost; the contract's promise about
@@ -483,7 +483,7 @@ the container rules go, the runtime pin replaces them.
 revision off traffic and rolled back in seconds; Flex has no deployment slots, zero-downtime
 rolling updates are in public preview, and recovery is redeploying the previous package. The
 deploy job today verifies only that auth is in front (302/401 to an anonymous request).
-Also: a hard 30-second initialisation timeout; three Azure resources per app (plan, app,
+Also: a hard 30-second initialization timeout; three Azure resources per app (plan, app,
 storage) plus three identities; a regional quota of 250 cores across all Flex apps.
 
 **Alternatives.** Keep D1 (rejected on cost and the heartbeat interaction). Static Web Apps

@@ -7,9 +7,9 @@ function Landing() {
   return (
     <main style={{ fontFamily: "system-ui", maxWidth: 560, margin: "4rem auto", lineHeight: 1.5 }}>
       <h1>citizen-poc-netlify</h1>
-      <p>You reached this page, so Netlify's team login already let you in through the organisation's identity provider.</p>
+      <p>You reached this page, so Netlify's team login already let you in through the organization's identity provider.</p>
       <p><a href="/app/">Open the app</a></p>
-      <p style={{ color: "#666", fontSize: 13 }}>Comparison artefact for the citizen playground design. Not a production system.</p>
+      <p style={{ color: "#666", fontSize: 13 }}>Comparison artifact for the citizen playground design. Not a production system.</p>
     </main>
   );
 }

@@ -18,7 +18,7 @@ export function whoami(req: Request) {
   const knownToApp = userIdentity.length > 0;
   log("info", knownToApp ? "user.signin" : "user.unknown", { path: new URL(req.url).pathname, userIdentity, platformMetadata });
   return {
-    authenticatedBy: "Netlify team login (organisation IdP), before any code ran",
+    authenticatedBy: "Netlify team login (organization IdP), before any code ran",
     knownToApp,
     userIdentityHeaders: userIdentity,
     platformMetadataHeaders: platformMetadata,
