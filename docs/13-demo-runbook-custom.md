@@ -16,7 +16,7 @@ Budget about 25 minutes plus one Terraform apply by the operator. Environment va
 In the dev environment all three are the same person. Say so out loud; the design keeps
 them separate and the demo collapses them for convenience.
 
-## 0. Before the audience arrives
+## 0. PREP
 
 Run these in the platform repo checkout. Each should print the value shown.
 

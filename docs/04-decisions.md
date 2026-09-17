@@ -526,3 +526,15 @@ the repo part ID-qualified (immutable subject), the workflow reference plain. Th
 job now prints the `sub` claim on every run, and the module trusts only that one form.
 
 **Affects.** `infra/terraform/modules/app`; [07](07-deploy-credential-flow.md).
+
+## D34 — Netlify comparison skills and template
+
+**Decided 2026-09-17.** Two more skills, `citizen-app-new-netlify` and
+`citizen-app-deploy-netlify`, with their own template `templates/netlify-app`, so the demo
+can run the same sentences on both platforms and the audience sees what Netlify lacks rather
+than hearing it. They are comparison tooling, not part of the platform; they enforce
+nothing, and their skill files say so. The template drops Netlify Identity (redundant behind
+an Enterprise team's SSO login; no instance on the team's sites) and reports truthfully that
+no user identity reaches the code.
+
+**Affects.** [10](10-netlify-comparison.md), [14](14-demo-runbook-netlify.md).

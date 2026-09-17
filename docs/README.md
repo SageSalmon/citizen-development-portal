@@ -14,8 +14,11 @@ citizen-development-portal/
     citizen-app-new-custom/  # ◐ build: scaffold + check run for real; repo creation written, done by hand so far
     citizen-app-deploy-custom/ # ◐ deploy: instructions over gh, followed by hand; no script
                              #   (admission is a manual operator step; D19 distribution open)
-  templates/react-app/       # ✓ the one template (Vite + React, Azure Functions handlers)
-  scripts/                   # ✓ citizen-app-new-custom.mjs (git/gh steps unexercised), write-registry.mjs
+    citizen-app-new-netlify/ # ◐ the Netlify counterpart for the comparison demo; scaffold run on a fixture, site-create/deploy via script unexercised
+    citizen-app-deploy-netlify/ # ◐ instructions; commands run by hand for citizen-poc-netlify
+  templates/react-app/       # ✓ the playground template (Vite + React, Azure Functions handlers)
+  templates/netlify-app/     # ✓ the Netlify comparison template (Vite + React, Netlify Functions)
+  scripts/                   # ✓ citizen-app-new-custom.mjs (git/gh steps unexercised), citizen-app-new-netlify.mjs (deploy steps unexercised), write-registry.mjs
   infra/gates/               # ✓ the rule engine, Node built-ins only, 7 rules, 16 tests
   infra/terraform/           # ✓ environment + modules/app + app-<name>.tf; state in Azure
   infra/registry/            # ✓ per-app records the deploy job reads (none yet)
@@ -50,6 +53,7 @@ Container Apps to Azure Functions Flex Consumption (D30); pages were rewritten t
 | [11-deployment-notes.md](11-deployment-notes.md) | What building and deploying taught us: backend auth, provider sources, Flex quirks, OIDC subjects, the release-age rule refusing its own template |
 | [12-known-gaps.md](12-known-gaps.md) | Where the work as built could mislead: no end-to-end deploy yet, health gate proves only the locked door, no rollback, manual admission, operator credential |
 | [13-demo-runbook-custom.md](13-demo-runbook-custom.md) | Demo script for the custom playground: new app with the skill, manual admission, deploy with the skill, sign in; what to say is not real yet; teardown. A Netlify demo runbook is planned alongside it. |
+| [14-demo-runbook-netlify.md](14-demo-runbook-netlify.md) | The Netlify half of the demo with the two Netlify skills: same sentences, no admission, no gates, no identity reaching the app |
 | [environments/](environments/README.md) | Identifying values per environment; `dev.md` is gitignored, `example.md` shows the shape |
 
 **Diagrams.** `diagrams/architecture.drawio` is the architecture diagram in draw.io XML,
