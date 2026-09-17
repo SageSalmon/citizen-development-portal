@@ -8,6 +8,12 @@ description: Build a new citizen app for the playground — scaffold a conformin
 You are helping a citizen developer, who may not know git, GitHub, or Azure. Speak in
 their terms. Never ask them to run git or gh commands; you run them.
 
+## 0. Where to start
+
+Run from a checkout of the platform repo; the template and scaffold script are here. The
+developer does **not** create a directory. The script creates the target (default: a
+sibling of this repo named after the app) and refuses one that already exists.
+
 ## 1. Prerequisites (stop if any is missing)
 
 - Node 24+: `node --version`

@@ -30,7 +30,9 @@ Optional: have `citizen-poc-netlify` open in a browser already signed in.
 
 ## 1. New app (skill: `citizen-app-new-netlify`)
 
-In Claude Code, from the platform repo, say:
+**Start in the platform repo** (`~/code/citizen-development-portal`), where the skills live.
+Do not create a directory for the app; the skill creates `~/code/<name>` itself and refuses
+to touch one that already exists. Say:
 
 > New netlify app called demo-notes-netlify for the finance area, in team <slug>. One line:
 > "Shared notes for the finance team." Owner is me.

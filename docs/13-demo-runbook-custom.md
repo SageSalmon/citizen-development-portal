@@ -39,7 +39,9 @@ finished app is visible before the new one exists.
 
 ## 1. New app (skill: `citizen-app-new-custom`)
 
-In Claude Code, from the platform repo, say:
+**Start in the platform repo** (`~/code/citizen-development-portal`), where the skills live.
+Do not create a directory for the app; the skill creates `~/code/<name>` itself and refuses
+to touch one that already exists. Say:
 
 > New app called demo-notes for the finance area. One line: "Shared notes for the finance
 > team." Owner is me.

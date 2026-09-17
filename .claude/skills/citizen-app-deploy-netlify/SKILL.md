@@ -8,6 +8,10 @@ description: Deploy a Netlify-hosted citizen-style app from the laptop and expla
 The Netlify counterpart of `citizen-app-deploy-custom`, and deliberately shorter, because
 there is less between "works locally" and "live": no admission, no gates, no pipeline.
 
+## Where to start
+
+Run from inside the app's directory (`~/code/<name>`), not the platform repo.
+
 ## Procedure
 
 1. **Is this a netlify-app project?** `netlify.toml` exists, `package.json` has the

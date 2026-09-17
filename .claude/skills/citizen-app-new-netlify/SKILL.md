@@ -10,6 +10,12 @@ tone. What is different is what is **absent**: no GitHub repo, no admission, no 
 engine, no OIDC, no identity reaching the code. Name each absence when it comes up; they are
 the comparison.
 
+## 0. Where to start
+
+Run from a checkout of the platform repo; the template and scaffold script are here. The
+developer does **not** create a directory. The script creates the target (default: a
+sibling of this repo named after the app) and refuses one that already exists.
+
 ## 1. Prerequisites (stop if any is missing)
 
 - Node 22+: `node --version`

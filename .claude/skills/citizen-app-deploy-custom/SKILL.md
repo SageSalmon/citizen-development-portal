@@ -8,6 +8,10 @@ description: Deploy a citizen app to the playground and explain what the platfor
 Everything between "my code works locally" and "my colleagues can open it". The developer
 never reads a workflow log; they hear what the platform decided and why.
 
+## Where to start
+
+Run from inside the app's directory (`~/code/<name>`), not the platform repo.
+
 ## Procedure
 
 1. **Is this a playground app?** `app.yaml` exists, `.github/workflows/deploy.yml` calls
