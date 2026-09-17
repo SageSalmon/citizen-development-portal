@@ -17,8 +17,8 @@ the comparison.
   the developer runs `npx netlify login` (opens a browser; on an Enterprise team this is the
   organisation's SSO).
 - The team to deploy into: `npx netlify api listAccountsForUser | node -pe 'JSON.parse(require("fs").readFileSync(0)).map(a=>a.slug+" ("+a.type_name+", "+a.members_count+" members)").join("\n")'`.
-  "Team" here is Netlify's word for the account a site lives in. Ask which one if more than
-  one is listed; the comparison sites use `lt-poc`.
+  **Ask which team.** On a team that belongs to another group, get their say-so first; a
+  site in their team draws on their usage allocation and appears in their site list.
 - This platform repo checked out locally.
 
 ## 2. Gather inputs, once
@@ -75,4 +75,4 @@ Real: the template, the scaffold script through `build` (run on a fixture). The 
 and deploy steps use the same commands that deployed `citizen-poc-netlify` by hand on
 2026-09-17; **the script's own path through them is unexercised** until a scaffold runs
 without `--no-deploy`. Not built: linking a GitHub repo for deploy previews; Netlify Identity
-(dropped: redundant behind the account's SSO login and no instance on its sites).
+(dropped: redundant behind team login and no instance on the team's sites).

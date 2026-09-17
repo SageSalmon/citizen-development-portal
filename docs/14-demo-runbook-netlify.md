@@ -7,15 +7,11 @@ Budget 10 minutes. Team and site values are in `environments/dev.md` (gitignored
 
 ## Roles
 
-One person does all of this. "Netlify team" below means the Netlify **account** the site is
-created in (`lt-poc`, an Enterprise account with SSO login enforced on every site), not a
-group of people.
-
-| Role | In | Does |
-|------|----|------|
-| Citizen developer | Claude Code | says "new netlify app" and "deploy" |
-| Platform operator | nowhere | there is no admission step |
-| User | a browser | signs in through the SSO login the Netlify account enforces |
+| Role | Who | Does |
+|------|-----|------|
+| Citizen developer | the presenter, in Claude Code | says "new netlify app" and "deploy" |
+| Platform operator | nobody | there is no admission step |
+| User | the presenter, in a browser | signs in through the Netlify team's SSO |
 
 The middle row is the demo.
 
@@ -23,13 +19,12 @@ The middle row is the demo.
 
 ```bash
 npx netlify api getCurrentUser --data '{}' | head -c 120       # signed in
-npx netlify api listAccountsForUser | node -pe 'JSON.parse(require("fs").readFileSync(0)).map(a=>a.slug).join(" ")'   # includes lt-poc
+npx netlify api listAccountsForUser | node -pe 'JSON.parse(require("fs").readFileSync(0)).map(a=>a.slug).join(" ")'   # includes the demo team
 node --version                                                  # v22 or later
 ```
 
-The site goes into the `lt-poc` Netlify account, the same one `citizen-poc-netlify` is in.
-Pick a name unique across Netlify (it becomes `<name>.netlify.app`); this page uses
-`demo-notes-netlify`.
+Confirm with the owners of the demo team that a throwaway site there is fine. Pick a name
+unique across Netlify (it becomes `<name>.netlify.app`); this page uses `demo-notes-netlify`.
 
 Optional: have `citizen-poc-netlify` open in a browser already signed in.
 
@@ -37,7 +32,7 @@ Optional: have `citizen-poc-netlify` open in a browser already signed in.
 
 In Claude Code, from the platform repo, say:
 
-> New netlify app called demo-notes-netlify for the finance area, in lt-poc. One line:
+> New netlify app called demo-notes-netlify for the finance area, in team <slug>. One line:
 > "Shared notes for the finance team." Owner is me.
 
 What the skill does:
@@ -46,7 +41,7 @@ What the skill does:
 2. Scaffold: template copied, `npm install --ignore-scripts`, `check`, `test`, `build`.
 3. **First time through the script:** `sites:create` in the team, `env:set APP_NAME`,
    `netlify deploy --prod`. The same three commands deployed `citizen-poc-netlify` by hand.
-4. Report: the live URL, "who can open it is whatever the Netlify account enforces", "there is no repo".
+4. Report: the live URL, "who can open it is whatever the team enforces", "there is no repo".
 
 Elapsed: about two minutes from sentence to live URL. In the custom runbook the same sentence
 ends at "not admitted" and a Terraform apply stands between the developer and a running app.
@@ -78,27 +73,27 @@ Check, test, build, `netlify deploy --prod`, one to two minutes. What is happeni
 Open the URL in a **normal** browser window (not private; the edge-access handshake needs
 cookies and JavaScript):
 
-1. Netlify's SSO login redirects to the organisation's identity provider. Expect two
+1. Netlify's team login redirects to the organisation's identity provider. Expect two
    prompts: one for `app.netlify.com`, one for the site's edge-access handshake. Sign in.
 2. The page loads. The first panel says the app does **not** know who you are, and lists the
-   only headers Netlify added: the account that owns the site.
+   only headers Netlify added: the team that owns the site.
 3. In a terminal, the closed door:
 
 ```bash
 curl -s -o /dev/null -w '%{http_code}\n' https://demo-notes-netlify.netlify.app/api/healthz    # 401
 ```
 
-4. Anyone without a login to that Netlify account, including any employee, is refused at
-   the edge. For a citizen app that means every viewer needs a Netlify seat.
+4. Anyone not on the Netlify team, including any employee, is refused at the edge. For a
+   citizen app that means viewers must be Netlify team members.
 
 ## 5. Not real
 
 - No source control. Deploys come from a laptop; the running code has no provenance.
-- No admission, no owner, no access group. Who can view is whoever has a login to the Netlify account, all or nothing.
+- No admission, no owner, no access group. Who can view is the Netlify team, all or nothing.
 - No identity reaches the app: no `user.signin`, no acting on the user's behalf, no
   on-behalf-of to Microsoft services.
 - Credentials for any backend are environment variables an author set; nobody re-verifies them.
-- No Netlify Identity: redundant behind the account's SSO login, and no instance exists on its sites.
+- No Netlify Identity: redundant behind team login, and no instance exists on this team's sites.
 - The functions run on AWS Lambda (observed in a stack trace, 2026-09-17), outside the
   organisation's Azure tenant.
 
@@ -113,7 +108,7 @@ In the Netlify UI: Project configuration, General, Danger zone, Delete project. 
 cd ../demo-notes-netlify && npx netlify sites:delete --force
 ```
 
-Also `citizen-poc-netlify` when the comparison work is finished.
+Also `citizen-poc-netlify` when the comparison work is finished; it is in another team's list.
 
 ## If something goes wrong
 

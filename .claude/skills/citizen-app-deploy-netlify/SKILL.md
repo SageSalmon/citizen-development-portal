@@ -19,15 +19,15 @@ there is less between "works locally" and "live": no admission, no gates, no pip
 3. **Deploy:** `npm run deploy` (`netlify deploy --prod --dir=dist --functions=netlify/functions`).
    Takes one to two minutes. Read the "Production URL" line.
 4. **Verify what can be verified:** `curl -s -o /dev/null -w '%{http_code}' https://<name>.netlify.app/api/healthz`.
-   On an Enterprise account with SSO login enforced, expect **401**: the door is closed to anyone
+   On an Enterprise team with team login, expect **401**: the door is closed to anyone
    without a Netlify team session. Open the URL in a browser to see the app.
-5. **Report:** the URL, who can open it (whatever the Netlify account enforces), that no repo or
+5. **Report:** the URL, who can open it (whatever the team enforces), that no repo or
    commit is associated with what is running (`/api/healthz` says `commit: unknown`), and
    that the previous deploy can be restored from the Netlify UI's deploy list.
 
 ## What it never does
 
-- Change account-level protection (SSO login, password) on any site.
+- Change team-level protection (team login, password) on a site in someone else's team.
 - Bypass a failing check. There is no gate to bypass; stop and report the failure.
 - Set a credential without saying where it now lives.
 

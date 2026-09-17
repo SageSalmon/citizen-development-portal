@@ -7,13 +7,14 @@ Budget about 25 minutes plus one Terraform apply by the operator. Environment va
 
 ## Roles in the demo
 
-One person does all of this; the design keeps the three roles separate.
+| Role | Who, in the dev environment | Does |
+|------|-----------------------------|------|
+| Citizen developer | the presenter, in Claude Code | says "new app" and "deploy"; never touches Azure |
+| Platform operator | the presenter, in a terminal | admits the app: one Terraform file, one apply, one commit |
+| User | the presenter, in a browser | signs in as a member of the app's access group |
 
-| Role | In | Does |
-|------|----|------|
-| Citizen developer | Claude Code | says "new app" and "deploy"; never touches Azure |
-| Platform operator | a terminal | admits the app: one Terraform file, one apply, one commit |
-| User | a browser | signs in as a member of the app's access group |
+In the dev environment all three are the same person. The design keeps them separate; the
+demo collapses them for convenience.
 
 ## 0. PREP
 
