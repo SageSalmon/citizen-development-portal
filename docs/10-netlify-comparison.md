@@ -22,7 +22,7 @@ connection string; the SDK resolves the credential itself, and the same connecti
 DDL and DML.
 
 **Skills for the demo (D34).** `citizen-app-new-netlify` and `citizen-app-deploy-netlify`, with
-`templates/netlify-app`, mirror the custom skills so both platforms can be driven by the
+the template inside the build skill's folder, mirror the custom skills so both platforms can be driven by the
 same sentences. [14-demo-runbook-netlify.md](14-demo-runbook-netlify.md) is the script.
 
 ## Netlify plan tiers, 2026-09-10

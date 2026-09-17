@@ -50,7 +50,7 @@ reports the current state and stops.
 | Set the repo's OIDC subject template | ◐ code exists, **not run via the script** | set by hand with `gh api`; confirmed working by the first deploy |
 | Deploy skill: check, admitted?, push, watch, translate | ◐ instructions only | followed by hand for the three `hello-citizen` runs; no script |
 | Admission | ○ manual operator step | `app-<name>.tf` written by hand, applied, registry committed |
-| Distributing the skills to developers without this repo | ○ | D19 |
+| Distributing the skills to developers without this repo | ◐ | D19. `citizen-app-new-netlify` is self-contained and runs from `~/.claude/skills` (verified 2026-09-17 from a bare directory); the custom build skill still needs this repo for `templates/` and `infra/gates`. |
 
 No MCP connector is involved anywhere: the skills use `node`, `git`, and `gh`. The
 combined scaffold-to-repo path has never run once as a single invocation; verifying it means

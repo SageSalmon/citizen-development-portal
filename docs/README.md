@@ -14,11 +14,10 @@ citizen-development-portal/
     citizen-app-new-custom/  # ◐ build: scaffold + check run for real; repo creation written, done by hand so far
     citizen-app-deploy-custom/ # ◐ deploy: instructions over gh, followed by hand; no script
                              #   (admission is a manual operator step; D19 distribution open)
-    citizen-app-new-netlify/ # ◐ the Netlify counterpart for the comparison demo; scaffold run on a fixture, site-create/deploy via script unexercised
+    citizen-app-new-netlify/ # ◐ self-contained (template/ and scripts/scaffold.mjs inside); works from ~/.claude/skills with no checkout; site-create/deploy via script unexercised
     citizen-app-deploy-netlify/ # ◐ instructions; commands run by hand for citizen-poc-netlify
   templates/react-app/       # ✓ the playground template (Vite + React, Azure Functions handlers)
-  templates/netlify-app/     # ✓ the Netlify comparison template (Vite + React, Netlify Functions)
-  scripts/                   # ✓ citizen-app-new-custom.mjs (git/gh steps unexercised), citizen-app-new-netlify.mjs (deploy steps unexercised), write-registry.mjs
+  scripts/                   # ✓ citizen-app-new-custom.mjs (git/gh steps unexercised), write-registry.mjs
   infra/gates/               # ✓ the rule engine, Node built-ins only, 7 rules, 16 tests
   infra/terraform/           # ✓ environment + modules/app + app-<name>.tf; state in Azure
   infra/registry/            # ✓ per-app records the deploy job reads (none yet)

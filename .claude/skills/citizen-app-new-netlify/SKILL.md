@@ -12,9 +12,11 @@ the comparison.
 
 ## 0. Where to start
 
-Run from a checkout of the platform repo; the template and scaffold script are here. The
-developer does **not** create a directory. The script creates the target (default: a
-sibling of this repo named after the app) and refuses one that already exists.
+This skill is self-contained: `scripts/scaffold.mjs` and `template/` live in the skill
+folder, so it works from a global install (`~/.claude/skills/citizen-app-new-netlify`) with
+no repo checkout. Run it from the directory the app should live **under** (for example
+`~/code`). The developer does **not** create the app directory; the script creates
+`<cwd>/<name>` and refuses one that already exists.
 
 ## 1. Prerequisites (stop if any is missing)
 
@@ -25,7 +27,6 @@ sibling of this repo named after the app) and refuses one that already exists.
 - The team to deploy into: `npx netlify api listAccountsForUser | node -pe 'JSON.parse(require("fs").readFileSync(0)).map(a=>a.slug+" ("+a.type_name+", "+a.members_count+" members)").join("\n")'`.
   **Ask which team.** On a team that belongs to another group, get their say-so first; a
   site in their team draws on their usage allocation and appears in their site list.
-- This platform repo checked out locally.
 
 ## 2. Gather inputs, once
 
@@ -33,7 +34,7 @@ sibling of this repo named after the app) and refuses one that already exists.
 |---|---|---|
 | App name | "What should the app be called? Lowercase, hyphens. It becomes `<name>.netlify.app`, so it must be unique across all of Netlify." | — |
 | Owner email | detect from `git config user.email`; confirm | current user |
-| Business area | "Which team or business area is this for?" | — |
+| Business area | optional; only README text on Netlify (it is a cost tag on the custom platform) | unspecified |
 | One-line description | "Describe the app in one line." | "A citizen app on Netlify." |
 | Netlify team | from the list above | — |
 | Target directory | only if not obvious | sibling of this repo, named after the app |
@@ -42,11 +43,12 @@ sibling of this repo named after the app) and refuses one that already exists.
 ## 3. Scaffold
 
 ```bash
-node scripts/citizen-app-new-netlify.mjs --name <name> --owner <email> --area <area> \
-  --description "<one line>" --team <team slug> [--dir <target>] [--no-deploy]
+node "<this skill's directory>/scripts/scaffold.mjs" --name <name> --owner <email> \
+  --description "<one line>" --team <team slug> [--area <area>] [--dir <target>] [--no-deploy]
 ```
 
-Copies `templates/netlify-app`, substitutes inputs, `npm install --ignore-scripts`, `check`,
+The skill's base directory is given at the top of this file when it loads; use it as the
+path. Copies `template/`, substitutes inputs, `npm install --ignore-scripts`, `check`,
 `test`, `build`, then creates the site in the team, sets `APP_NAME`, and deploys. Use
 `--no-deploy` to customize first and deploy afterwards with `citizen-app-deploy-netlify`.
 

@@ -530,7 +530,7 @@ job now prints the `sub` claim on every run, and the module trusts only that one
 ## D34 — Netlify comparison skills and template
 
 **Decided 2026-09-17.** Two more skills, `citizen-app-new-netlify` and
-`citizen-app-deploy-netlify`, with their own template `templates/netlify-app`, so the demo
+`citizen-app-deploy-netlify`, with their own template inside the build skill's folder, so the demo
 can run the same sentences on both platforms and the audience sees what Netlify lacks rather
 than hearing it. They are comparison tooling, not part of the platform; they enforce
 nothing, and their skill files say so. The template drops Netlify Identity (redundant behind

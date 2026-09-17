@@ -30,16 +30,17 @@ Optional: have `citizen-poc-netlify` open in a browser already signed in.
 
 ## 1. New app (skill: `citizen-app-new-netlify`)
 
-**Start in the platform repo** (`~/code/citizen-development-portal`), where the skills live.
-Do not create a directory for the app; the skill creates `~/code/<name>` itself and refuses
-to touch one that already exists. Say:
+**Start in `~/code`**, the directory the app should live under. The skill is self-contained
+and installed globally (`~/.claude/skills/citizen-app-new-netlify`), so no repo checkout is
+needed. Do not create a directory for the app; the skill creates `~/code/<name>` itself and
+refuses to touch one that already exists. Say:
 
-> New netlify app called demo-notes-netlify for the finance area, in team <slug>. One line:
-> "Shared notes for the finance team." Owner is me.
+> New netlify app called demo-notes-netlify in team <slug>. One line: "Shared notes for the
+> finance team." Owner is me.
 
 What the skill does:
 
-1. Prerequisites: Node, Netlify signed in, team membership. No `gh`, no `git`.
+1. Prerequisites: Node, Netlify signed in, team membership. No `gh`, no `git`, no repo checkout.
 2. Scaffold: template copied, `npm install --ignore-scripts`, `check`, `test`, `build`.
 3. **First time through the script:** `sites:create` in the team, `env:set APP_NAME`,
    `netlify deploy --prod`. The same three commands deployed `citizen-poc-netlify` by hand.
