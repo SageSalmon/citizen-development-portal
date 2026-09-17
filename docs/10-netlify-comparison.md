@@ -8,8 +8,11 @@ a decision; D1 (Container Apps) stands.
 **The comparison app** lives in this repo at `netlify-poc/`: a small React site with four
 functions (health, identity, Netlify DB, a Fabric read through a stored service-principal
 secret) and a two-job GitHub Actions deploy. Its README is the setup; `netlify-poc/docs/findings.md`
-is the checklist to fill in when it runs. As of 2026-09-16 it builds locally and has not been
-deployed to any Netlify site.
+is the checklist being filled in. **Deployed 2026-09-17** into the LT-POC Enterprise team as
+`citizen-poc-netlify`, by `netlify deploy --prod` from a laptop. First finding: the team's
+SSO team-login default closed the whole site, including its public login page, to non-members
+before anything was configured; Netlify Identity and the `Role=` rules cannot be exercised
+there without loosening that default.
 
 ## Netlify plan tiers, 2026-09-10
 
