@@ -1,9 +1,5 @@
-import type { Config, Context } from "@netlify/functions";
-import { requireUser, json } from "../shared/identity.mts";
+import type { Config } from "@netlify/functions";
+import { whoami, json } from "../shared/identity.mts";
 
-export default async (req: Request, context: Context) => {
-  const who = await requireUser(req, context);
-  return who instanceof Response ? who : json(who);
-};
-
+export default async (req: Request) => json(whoami(req));
 export const config: Config = { path: "/api/me" };

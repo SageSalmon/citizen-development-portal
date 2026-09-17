@@ -9,15 +9,17 @@ It is one small React app with four functions:
 
 | Route | What it proves |
 |-------|----------------|
-| `/` | Public login page (Netlify Identity) |
-| `/app/` | Protected page: edge `Role=member` redirect bounces anonymous visitors |
+| `/` | Landing page; reachable only after Netlify's SSO team login |
+| `/app/` | The panels; same protection |
 | `GET /api/healthz` | Heartbeat shape from the design's contract (status, commit, startedAt, upstreams) |
-| `GET /api/me` | Function verifies the bearer token server-side and logs a `user.signin` JSON line |
+| `GET /api/me` | Reports what the platform told the app about the user: on this team, nothing |
 | `GET /api/db` | Netlify DB (Neon Postgres) read/write with the injected connection string |
 | `GET /api/fabric` | Reads a Fabric SQL analytics endpoint over TDS with a **service principal secret held in env vars** |
 
-Deployed by a two-job GitHub Actions workflow: job A builds and holds no token; job B
-holds the Netlify token and uploads. Record what you observe in [docs/findings.md](docs/findings.md).
+**Deployed 2026-09-17** into the LT-POC Enterprise team as `citizen-poc-netlify`, from a
+laptop with `netlify deploy --prod`. Netlify Identity was removed the same day: the team's
+SSO team login already gates every site, and no Identity instance exists here. Record what
+you observe in [docs/findings.md](docs/findings.md).
 
 ## Prerequisites
 

@@ -19,55 +19,7 @@
   framework  = "vite"
   targetPort = 5173
 
-# ---------------------------------------------------------------------------
-# Role-based access at the CDN edge. Netlify reads the `nf_jwt` cookie set by
-# Netlify Identity and evaluates `Role=` conditions BEFORE any function or asset
-# is served. This is the closest Free-plan analogue to "identity at the door".
-# Users get the `member` role from netlify/functions/identity-signup.mts.
-#
-# Order matters: first matching rule wins. `force = true` overrides existing files.
-# ---------------------------------------------------------------------------
-
-# Protected app page
-[[redirects]]
-  from = "/app/*"
-  to = "/app/index.html"
-  status = 200
-  force = true
-  conditions = { Role = ["member"] }
-
-[[redirects]]
-  from = "/app/*"
-  to = "/"
-  status = 302
-  force = true
-
-# Protected API routes (functions ALSO verify the bearer token server-side)
-[[redirects]]
-  from = "/api/db"
-  to = "/api/db"
-  status = 200
-  force = true
-  conditions = { Role = ["member"] }
-
-[[redirects]]
-  from = "/api/fabric"
-  to = "/api/fabric"
-  status = 200
-  force = true
-  conditions = { Role = ["member"] }
-
-[[redirects]]
-  from = "/api/db"
-  to = "/401.json"
-  status = 401
-  force = true
-
-[[redirects]]
-  from = "/api/fabric"
-  to = "/401.json"
-  status = 401
-  force = true
-
-# /api/healthz and /api/me are deliberately reachable without a role:
-# healthz so an external monitor can probe, /me so the login page can ask "who am I".
+# Access control on this team is Netlify's SSO team login, applied at the team level to
+# every site before any request reaches these files or the functions. The earlier Netlify
+# Identity + `Role=` redirect rules were removed on 2026-09-17: no Identity instance exists on
+# this site and the team default makes them redundant. See docs/findings.md row 1.

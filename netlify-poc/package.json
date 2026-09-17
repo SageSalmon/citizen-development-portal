@@ -18,7 +18,6 @@
     "@netlify/database": "2.0.1",
     "@netlify/functions": "6.0.0",
     "mssql": "12.7.2",
-    "netlify-identity-widget": "2.0.3",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },

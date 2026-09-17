@@ -11,8 +11,11 @@ secret) and a two-job GitHub Actions deploy. Its README is the setup; `netlify-p
 is the checklist being filled in. **Deployed 2026-09-17** into the LT-POC Enterprise team as
 `citizen-poc-netlify`, by `netlify deploy --prod` from a laptop. First finding: the team's
 SSO team-login default closed the whole site, including its public login page, to non-members
-before anything was configured; Netlify Identity and the `Role=` rules cannot be exercised
-there without loosening that default.
+before anything was configured. Netlify Identity was then removed from the POC: a second
+login was redundant and no Identity instance exists on the site. **Second finding:** team
+login authenticates the visitor but forwards nothing about them to the functions, so the app
+cannot say who is using it, log a sign-in, or act on the user's behalf. The same door on the
+playground hands the code the user's object id, UPN, and display name.
 
 ## Netlify plan tiers, 2026-09-10
 

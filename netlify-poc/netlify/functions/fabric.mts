@@ -1,6 +1,6 @@
-import type { Config, Context } from "@netlify/functions";
+import type { Config } from "@netlify/functions";
 import sql from "mssql";
-import { requireUser, json } from "../shared/identity.mts";
+import { json } from "../shared/identity.mts";
 import { env } from "../shared/env.mts";
 import { log } from "../shared/log.mts";
 
@@ -16,9 +16,8 @@ import { log } from "../shared/log.mts";
  * Prereqs (README): Fabric tenant setting "Service principals can use Fabric APIs" on;
  * the SP added to the workspace (Viewer is enough to read).
  */
-export default async (req: Request, context: Context) => {
-  const who = await requireUser(req, context);
-  if (who instanceof Response) return who;
+export default async (req: Request) => {
+  // Team login already gated this request at the edge; nothing identifies the caller here.
 
   const endpoint = env("FABRIC_SQL_ENDPOINT");
   const database = env("FABRIC_DATABASE");
@@ -50,7 +49,7 @@ export default async (req: Request, context: Context) => {
       rows = Number(r.recordset[0].n);
     }
     const ms = Date.now() - t0;
-    log("info", "fabric.query", { by: who.email, ms });
+    log("info", "fabric.query", { by: "unknown (team login forwards no identity)", ms });
     return json({ endpoint, database, tables: tables.recordset[0].n, rows, ms });
   } catch (e) {
     log("error", "fabric.error", { message: String(e) });
