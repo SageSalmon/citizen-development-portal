@@ -50,6 +50,51 @@ offers it, and the verdict. "No equivalent" means no tier provides it.
 | Scale to zero, cheap when idle (D1) | Serverless by nature | All plans | **Equivalent.** |
 | Preview environments | Deploy previews per pull request, each with its own database branch on Netlify DB | All plans | **Better than the design**, which has no preview deploys. |
 
+## The Okta question: can the app use the user's permissions and hold no credentials?
+
+The most common question about Netlify here is whether, since it is fronted by Okta, an
+app can be written so that it reaches backend services with the signed-in user's own
+permissions and no credential is ever stored in Netlify's systems. **Yes, for backends that
+accept the user's token, and that condition is where the answer stops being about Netlify.**
+
+**The pattern.**
+
+1. The browser signs the user in with Okta directly (OpenID Connect, authorization code
+   with PKCE). No client secret exists; a browser app is a public client.
+2. The browser calls a Netlify function with the Okta access token as a bearer header.
+3. The function validates the token against Okta's public keys and forwards it, or
+   exchanges it for one scoped to the backend (Okta supports the token exchange grant).
+4. The backend validates the token and authorizes **the user**. If the user cannot read a
+   record in the source system, neither can the app on their behalf.
+
+Nothing is stored. The only environment values are the Okta issuer URL and client id, both
+public. Tokens pass through the function runtime for the life of one request, which is true
+on any host, including Azure Functions. What Netlify never has is a standing credential that
+works when no user is present. This is the same principle as the playground's `user` mode.
+
+**What it requires of the backends.**
+
+| Backend | Works with the user's Okta token? |
+|---------|------------------------------------|
+| An internal API with an Okta authorization server in front | Yes, directly |
+| Microsoft services: Graph, SharePoint, Fabric SQL endpoints, Azure resources | No. They accept only Entra tokens. The path is Okta federated to Entra, so the user signs in through Okta but the app requests Entra tokens, and the app is then an Entra client registered in the Entra tenant. Whether that federation exists is an identity-team fact, not an app decision. |
+| Anything with no user-level identity: a database password, a third-party API key | No. Someone must hold the key, and on Netlify that is an environment variable. This is the case that breaks the goal, and the honest options are "do not connect it from Netlify" or "accept the stored secret". |
+
+**What the pattern cannot give.**
+
+- **Unattended work.** Nothing runs when no user is signed in: no scheduled refresh, no
+  background job. That needs a standing identity, which is the playground's `app` mode with
+  a managed identity capped at the owner. Netlify has no identity to cap.
+- **Policy beyond the user.** The app's reach is exactly the user's. That is a feature, and
+  the playground defaults to it too; the playground can additionally grant and verify a
+  bounded standing identity, Netlify cannot.
+
+**Verdict.** An app that only reads and writes what its user may already read and write,
+through backends that accept the user's token, can be built on Netlify with zero credentials
+in Netlify's hands. The gaps appear exactly where the playground added machinery:
+Microsoft-backed services need Entra, unattended work needs a standing identity, and shared
+keys need a vault. On Netlify each of those is a stored environment variable or is not possible.
+
 ## Observed in practice, 2026-09-14
 
 A read-only look at an internal organisation's Netlify Enterprise account (details in

@@ -46,7 +46,7 @@ Container Apps to Azure Functions Flex Consumption (D30); pages were rewritten t
 | [07-deploy-credential-flow.md](07-deploy-credential-flow.md) | Who holds which credential at each step of a deploy, and the five details that keep the gates real |
 | [08-data.md](08-data.md) | The `data/` folder: PostgreSQL tiers, Drizzle schema, migrations applied by the platform at deploy |
 | [09-fabric.md](09-fabric.md) | Fabric as a second `data/` target: per-app workspace, items published at deploy, deterministic data checks, ML model construction |
-| [10-netlify-comparison.md](10-netlify-comparison.md) | Could Netlify host this? Feature-by-feature check against Netlify's docs and plan tiers, 2026-09-10, plus what an internal Enterprise account actually does; verdict: no |
+| [10-netlify-comparison.md](10-netlify-comparison.md) | Could Netlify host this? Feature-by-feature check against Netlify's docs and plan tiers, 2026-09-10, plus what an internal Enterprise account actually does, and whether an Okta-fronted app can run with no stored credentials; verdict: no |
 | [11-deployment-notes.md](11-deployment-notes.md) | What building and deploying taught us: backend auth, provider sources, Flex quirks, OIDC subjects, the release-age rule refusing its own template |
 | [12-known-gaps.md](12-known-gaps.md) | Where the work as built could mislead: no end-to-end deploy yet, health gate proves only the locked door, no rollback, manual admission, operator credential |
 | [13-demo-runbook-custom.md](13-demo-runbook-custom.md) | Demo script for the custom playground: new app with the skill, manual admission, deploy with the skill, sign in; what to say is not real yet; teardown. A Netlify demo runbook is planned alongside it. |
